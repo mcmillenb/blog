@@ -1,3 +1,0 @@
-# DnD Party Management App
-
-I've started running a DnD campaign with college friends during The Quarantine. We're using [DnD Beyond](https://dndbeyond.com) for character creation and management. We're seven people total, and I'm finding that I need to have everyone's character sheet up on DnD beyond so that I can get a quick glimpse at who has the highest Natural Perception, or which party member between two has the highest Dexterity, etc. Currently, DnD Beyond does have a succinct view of the party's data, and I'd like to build one. I'm going to be writing this post as I go through the process of making an app for summarizing party data using the data stored in DnD Beyond.
