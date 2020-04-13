@@ -8,4 +8,3 @@ This is a summary of the book.
   * [Node Project in VS Code](posts/node-project.md)
   * [Push a Project to GitHub](posts/push-to-github.md)
 * [Thoughts](thoughts/README.md)
-  * [First Thought](thoughts/first-thought.md)
