@@ -1,0 +1,348 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Node Project in VS Code · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="push-to-github.html" />
+    
+    
+    <link rel="prev" href="dnd-party-app.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Blog
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Posts
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="dnd-party-app.html">
+            
+                <a href="dnd-party-app.html">
+            
+                    
+                    DnD Party Management App
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.2" data-path="node-project.html">
+            
+                <a href="node-project.html">
+            
+                    
+                    Node Project in VS Code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="push-to-github.html">
+            
+                <a href="push-to-github.html">
+            
+                    
+                    Push a Project to GitHub
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../thoughts/">
+            
+                <a href="../thoughts/">
+            
+                    
+                    Thoughts
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../thoughts/first-thought.html">
+            
+                <a href="../thoughts/first-thought.html">
+            
+                    
+                    First Thought
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Node Project in VS Code</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="node-project-in-vs-code">Node Project in VS Code</h1>
+<p>The following section will describe why I like JavaScript, Node, and VS Code as my default project setup. If you&apos;re not interested in that and just want to get the dang thing running, jump to the next section.</p>
+<p>I like programming in JavaScript, because it&apos;s so versatile. It&apos;s super unopinionated, which means it has a very low barrier-to-entry. (It also means that you can develop bad habits if you&apos;re not careful, so look up <a href="https://jstherightway.org/" target="_blank">best practices</a> and then break them when you need to.)</p>
+<p>I like <a href="nodejs.org">Node</a> because it&apos;s written in JavaScript and allows you to run server-side code. I remember in college (2010 - 2014) my CS Professor saying that Node was an interesting idea, but wouldn&apos;t ever be seriously used in the &quot;real world&quot;, because it&apos;s so much slower compared to other server-side languages. Well, that professor was wrong. Node is used all the time for all different types of applications, nevermind how slow it is. It gets the job done and doesn&apos;t require you to learn a new language if you already know JavaScript. It also comes with the unopinionateness of JS that you don&apos;t get with other languages. (Some people really like things to be opinionated btw, so this isn&apos;t innately a good thing.) But, anyways, I like Node and, at least for my projects, I&apos;ll use it when I can.</p>
+<p>I like using <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> as an IDE, because it&apos;s free, highly customizable, has a large community of users supporting it, and has a <a href="https://code.visualstudio.com/docs/editor/integrated-terminal" target="_blank">built-in terminal</a>. I used Eclipse in college, when I mostly programmed in Java. Then, I used Sublime for a while when I was programming in JavaScript professionally. But for the past three or so years I&apos;ve been using VS Code for pretty much anything (even Java code for my actual job). VS Code has extensions for almost every language or type of file, and the customizing makes it easy to tweak anything that frustrates me about the default settings.</p>
+<p>All of that to say: I like using Node in VS Code as a default setup for personal projects, because I am familiar with them and they allow me the lowest barrier-to-entry when wanting to test out a new idea. But I also believe they are inherently easy to pick up and would be a good starting point for anyone following along in my walkthroughs, so I&apos;d encourage anyone to try them out.</p>
+<h2 id="installing-vs-code">Installing VS Code</h2>
+<p>You can install VS Code here: <a href="https://code.visualstudio.com/download" target="_blank">https://code.visualstudio.com/download</a></p>
+<h2 id="installing-node">Installing Node</h2>
+<p>You can install Node here: <a href="https://nodejs.org/en/download/" target="_blank">https://nodejs.org/en/download/</a></p>
+<p>Node should come installed with the Node Package Manager (<code>npm</code>), but if it doesn&apos;t you can install it from here: <a href="https://www.npmjs.com/get-npm" target="_blank">https://www.npmjs.com/get-npm</a>.</p>
+<h2 id="simple-node-project">Simple Node Project</h2>
+<p>Once you have VS Code and Node installed, create a new folder in your file manager and then open it with VS Code. You should then add a single <code>index.js</code> file to the project folder and add the following code to the file:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;http&apos;</span>);
+
+<span class="hljs-keyword">const</span> hostname = <span class="hljs-string">&apos;127.0.0.1&apos;</span>;
+<span class="hljs-keyword">const</span> port = <span class="hljs-number">3000</span>;
+
+<span class="hljs-keyword">const</span> server = http.createServer((req, res) =&gt; {
+  res.statusCode = <span class="hljs-number">200</span>;
+  res.setHeader(<span class="hljs-string">&apos;Content-Type&apos;</span>, <span class="hljs-string">&apos;text/plain&apos;</span>);
+  res.end(<span class="hljs-string">&apos;Hello World&apos;</span>);
+});
+
+server.listen(port, hostname, () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server running at http://<span class="hljs-subst">${hostname}</span>:<span class="hljs-subst">${port}</span>/`</span>);
+});
+</code></pre>
+<p>Then, in your terminal execute <code>node index.js</code> from your project&apos;s directory to run this simple node app. You should see a message saying <code>&quot;Server running at http://127.0.0.1:3000/&quot;</code> in you terminal. Then, once you navigate to <a href="http://127.0.0.1:3000/" target="_blank">http://127.0.0.1:3000/</a> in your browser, you should see a page that just displays the text &quot;Hello World&quot;.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="dnd-party-app.html" class="navigation navigation-prev " aria-label="Previous page: DnD Party Management App">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="push-to-github.html" class="navigation navigation-next " aria-label="Next page: Push a Project to GitHub">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"next":{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]},"previous":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/node-project.md","mtime":"2020-04-13T03:31:24.220Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-13T03:32:03.035Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
