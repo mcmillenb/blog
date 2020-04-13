@@ -14,3 +14,5 @@ First thing's first: I need to see how I can gather the data from DnD Beyond. If
 Now that we have a character created, let's see how to get that data from DnD Beyond. First thought is that there might be a development api for DnD Beyond... Hmm, looks like [they are planning on it](https://www.dndbeyond.com/forums/d-d-beyond-general/bugs-support/32487-d-d-beyond-api) but it's not available yet.
 
 Okay, so we'll need to get creative. Let's see if we can scrape the pages for data. I like JavaScript, so I'll look for ways to do it in Node. [Looks like node has a built-in way to make http requests.](https://nodejs.dev/making-http-requests-with-nodejs) That's good, so I'll [start a node project in VS Code](posts/node-project.md) and then [push that project up to GitHub](posts/push-to-github.md).
+
+So, our node project will start with a
