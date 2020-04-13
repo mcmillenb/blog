@@ -15,4 +15,6 @@ Now that we have a character created, let's see how to get that data from DnD Be
 
 Okay, so we'll need to get creative. Let's see if we can scrape the pages for data. I like JavaScript, so I'll look for ways to do it in Node. [Looks like node has a built-in way to make http requests.](https://nodejs.dev/making-http-requests-with-nodejs) That's good, so I'll [start a node project in VS Code](posts/node-project.md) and then [push that project up to GitHub](posts/push-to-github.md).
 
-So, our node project will start with a
+I've created [this repo for the project](https://github.com/mcmillenb/dnd-party-manager). I'll link to the different versions of the project as we go along. The very initial state of the project is [`v0.0.1`](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.1), if you want to check it out.
+
+(Next steps coming soon.)
