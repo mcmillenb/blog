@@ -8,4 +8,4 @@ This is a summary of the book.
   * [Node Project in VS Code](posts/node-project.md)
   * [Push a Project to GitHub](posts/push-to-github.md)
 * [Thoughts](thoughts/README.md)
-  * [Project Ideas](posts/project-ideas.md)
+  * [Project Ideas](thoughts/project-ideas.md)
