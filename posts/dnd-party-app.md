@@ -217,3 +217,7 @@ Now, when we run `npm run serve` and then navigate to <http://127.0.0.1:3000>, w
 We'll almost certainly need to take this code back out and handle the data fetching and serving in a more flexible way. But for now it works!
 
 If you want to see the code at this point, you can [view `v0.0.4` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.4).
+
+## Wait where's the rest of the data?
+
+(coming soon)
