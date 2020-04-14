@@ -266,6 +266,62 @@ server.listen(port, hostname, () =&gt; {
 });
 </code></pre>
 <p>Then, in your terminal execute <code>node index.js</code> from your project&apos;s directory to run this simple node app. You should see a message saying <code>&quot;Server running at http://127.0.0.1:3000/&quot;</code> in you terminal. Then, once you navigate to <a href="http://127.0.0.1:3000/" target="_blank">http://127.0.0.1:3000/</a> in your browser, you should see a page that just displays the text &quot;Hello World&quot;.</p>
+<h2 id="initialize-your-project-as-an-npm-package">Initialize Your Project as an npm Package</h2>
+<p>If you&apos;d like to use other npm packages in your project (or if you&apos;d like to be able to import your project into other projects), you will need to initialize your project as an npm package.</p>
+<p>The process is simple, just run this command in your project&apos;s root directory:</p>
+<pre><code class="lang-bash">npm init
+</code></pre>
+<p>This will present a dialog with different fields for you to specify values for, with any default value shown in parenthesis (e.g. <code>package name: (dnd-party-manager)</code>). You need to enter a value (or not if you want to accept the default value) and then press <kbd>Enter</kbd>.</p>
+<p>Here&apos;s an example of the filled-out dialog:</p>
+<pre><code class="lang-bash">$ npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm <span class="hljs-built_in">help</span> json` <span class="hljs-keyword">for</span> definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install &lt;pkg&gt;` afterwards to install a package and
+save it as a dependency <span class="hljs-keyword">in</span> the package.json file.
+
+Press ^C at any time to quit.
+package name: (dnd-party-manager)
+version: (1.0.0) 0.0.1
+description: a party manager <span class="hljs-keyword">for</span> DnD Beyond
+entry point: (index.js)
+<span class="hljs-built_in">test</span> <span class="hljs-built_in">command</span>: jest
+git repository: (https://github.com/mcmillenb/dnd-party-manager.git)
+keywords: dnd manager
+author: Brian McMillen
+license: (ISC)
+About to write to /Users/brianmcmillen/projects/dnd-party-manager/package.json:
+
+{
+  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;dnd-party-manager&quot;</span>,
+  <span class="hljs-string">&quot;version&quot;</span>: <span class="hljs-string">&quot;0.0.1&quot;</span>,
+  <span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;a party manager for DnD Beyond&quot;</span>,
+  <span class="hljs-string">&quot;main&quot;</span>: <span class="hljs-string">&quot;index.js&quot;</span>,
+  <span class="hljs-string">&quot;scripts&quot;</span>: {
+    <span class="hljs-string">&quot;test&quot;</span>: <span class="hljs-string">&quot;jest&quot;</span>
+  },
+  <span class="hljs-string">&quot;repository&quot;</span>: {
+    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;git&quot;</span>,
+    <span class="hljs-string">&quot;url&quot;</span>: <span class="hljs-string">&quot;git+https://github.com/mcmillenb/dnd-party-manager.git&quot;</span>
+  },
+  <span class="hljs-string">&quot;keywords&quot;</span>: [
+    <span class="hljs-string">&quot;dnd&quot;</span>,
+    <span class="hljs-string">&quot;manager&quot;</span>
+  ],
+  <span class="hljs-string">&quot;author&quot;</span>: <span class="hljs-string">&quot;Brian McMillen&quot;</span>,
+  <span class="hljs-string">&quot;license&quot;</span>: <span class="hljs-string">&quot;ISC&quot;</span>,
+  <span class="hljs-string">&quot;bugs&quot;</span>: {
+    <span class="hljs-string">&quot;url&quot;</span>: <span class="hljs-string">&quot;https://github.com/mcmillenb/dnd-party-manager/issues&quot;</span>
+  },
+  <span class="hljs-string">&quot;homepage&quot;</span>: <span class="hljs-string">&quot;https://github.com/mcmillenb/dnd-party-manager#readme&quot;</span>
+}
+
+
+Is this OK? (yes)
+</code></pre>
 
                                 
                                 </section>
@@ -309,7 +365,7 @@ server.listen(port, hostname, () =&gt; {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"next":{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]},"previous":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/node-project.md","mtime":"2020-04-13T15:04:02.795Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-13T15:04:43.345Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"next":{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]},"previous":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/node-project.md","mtime":"2020-04-14T00:20:54.757Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-14T00:21:40.711Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
