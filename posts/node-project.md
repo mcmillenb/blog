@@ -42,3 +42,68 @@ server.listen(port, hostname, () => {
 ```
 
 Then, in your terminal execute `node index.js` from your project's directory to run this simple node app. You should see a message saying `"Server running at http://127.0.0.1:3000/"` in you terminal. Then, once you navigate to <http://127.0.0.1:3000/> in your browser, you should see a page that just displays the text "Hello World".
+
+## Initialize Your Project as an npm Package
+
+If you'd like to use other npm packages in your project (or if you'd like to be able to import your project into other projects), you will need to initialize your project as an npm package.
+
+The process is simple, just run this command in your project's root directory:
+
+```bash
+npm init
+```
+
+This will present a dialog with different fields for you to specify values for, with any default value shown in parenthesis (e.g. `package name: (dnd-party-manager)`). You need to enter a value (or not if you want to accept the default value) and then press <kbd>Enter</kbd>.
+
+Here's an example of the filled-out dialog:
+
+```bash
+$ npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help json` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (dnd-party-manager)
+version: (1.0.0) 0.0.1
+description: a party manager for DnD Beyond
+entry point: (index.js)
+test command: jest
+git repository: (https://github.com/mcmillenb/dnd-party-manager.git)
+keywords: dnd manager
+author: Brian McMillen
+license: (ISC)
+About to write to /Users/brianmcmillen/projects/dnd-party-manager/package.json:
+
+{
+  "name": "dnd-party-manager",
+  "version": "0.0.1",
+  "description": "a party manager for DnD Beyond",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcmillenb/dnd-party-manager.git"
+  },
+  "keywords": [
+    "dnd",
+    "manager"
+  ],
+  "author": "Brian McMillen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcmillenb/dnd-party-manager/issues"
+  },
+  "homepage": "https://github.com/mcmillenb/dnd-party-manager#readme"
+}
+
+
+Is this OK? (yes)
+```
