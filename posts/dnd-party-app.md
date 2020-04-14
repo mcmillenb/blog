@@ -185,3 +185,35 @@ And now let's use it to parse the html we receive in the `axios` response callba
 Now we're getting somewhere. Now, if we run `npm run serve`, our app should make a request to our character's page, parse the response html, and then print out our character's title like so: `"Title: Rikstiivs"` (my DnD character's name is Rikstiivs).
 
 If you want to see the code at this point, you can [view `v0.0.3` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.3).
+
+## Display the data
+
+So now we have a server, and we're able to fetch and parse the data for our DnD Beyond character. But we only see that data in the terminal. We need to figure out some way to display the data in the server's response so that we get the formatted info we want when we load our app.
+
+The easiest thing to do will be to just take out that `const server = ...` and `server.listen(...)` code and jam it into the axios response callback, like so:
+
+```js
+// src/index.js
+// ...
+}).then((resp) => {
+  const $ = cheerio.load(resp.data);
+  const title = $('h1.page-title').text().trim();
+
+  const server = http.createServer((req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end(`Title: ${title}`);
+  });
+
+  server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+  });
+}).catch((error) => {
+// ...
+```
+
+Now, when we run `npm run serve` and then navigate to <http://127.0.0.1:3000>, we should see "Title: [Your Character's Name]" displayed.
+
+We'll almost certainly need to take this code back out and handle the data fetching and serving in a more flexible way. But for now it works!
+
+If you want to see the code at this point, you can [view `v0.0.4` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.4).
