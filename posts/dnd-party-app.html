@@ -255,7 +255,7 @@
 <h3 id="set-up-a-node-project">Set up a node project</h3>
 <p>First, let&apos;s add a couple scripts in the <code>package.json</code> file:</p>
 <pre><code class="lang-json">{
-  ...
+  <span class="hljs-comment">// ...</span>
   <span class="hljs-string">&quot;scripts&quot;</span>: {
     <span class="hljs-string">&quot;test&quot;</span>: <span class="hljs-string">&quot;jest&quot;</span>,
     <span class="hljs-string">&quot;serve&quot;</span>: <span class="hljs-string">&quot;node src/index.js&quot;</span>
@@ -287,6 +287,89 @@ server.listen(port, hostname, () =&gt; {
 </code></pre>
 <p>Now, from your project&apos;s root directory, run <code>npm run serve</code> to make sure that node can serve the app as expected. You should see a <code>&quot;Server running at http://127.0.0.1:3000&quot;</code> message and visiting <a href="http://127.0.0.1:3000" target="_blank">http://127.0.0.1:3000</a> should load with a &quot;Hello World&quot; message in the browser.</p>
 <p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.2" target="_blank">view <code>v0.0.2</code> here</a>.</p>
+<h3 id="parse-data-from-dnd-beyond-character-page">Parse data from DnD Beyond character page</h3>
+<p>So now we have a basic node app that we can run via <code>npm run serve</code>. Let&apos;s start trying to get our DnD character&apos;s data in our app.</p>
+<p>Our app is using the built-in <code>http</code> library to create a server. <a href="https://nodejs.org/api/http.html" target="_blank">Looking at the docs</a>, it seems like we can also use this library to make requests via <a href="https://nodejs.org/api/http.html#http_http_request_url_options_callback" target="_blank">the <code>http.request</code> method</a>.</p>
+<p>Following the example for the <code>http.request</code> method in the docs, let&apos;s add these few lines of code to the bottom of our <code>index.js</code> file, using the url for our DnD character:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
+<span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">const</span> characterUrl = <span class="hljs-string">&apos;https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114&apos;</span>;
+<span class="hljs-keyword">const</span> req = http.request(characterUrl, (resp) =&gt; {
+  resp.setEncoding(<span class="hljs-string">&apos;utf8&apos;</span>);
+  resp.on(<span class="hljs-string">&apos;data&apos;</span>, (data) =&gt; {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`BODY: <span class="hljs-subst">${data}</span>`</span>);
+  });
+  resp.on(<span class="hljs-string">&apos;end&apos;</span>, () =&gt; {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;No more data in response.&apos;</span>);
+  });
+});
+req.end();
+</code></pre>
+<p>Hmm, if we try running this via <code>npm run serve</code>, we get an error saying:</p>
+<blockquote>
+<p>Protocol &quot;https:&quot; not supported. Expected &quot;http:&quot;</p>
+</blockquote>
+<p>And if we change the <code>https:</code> to <code>http:</code> we just get this message:</p>
+<blockquote>
+<p>No more data in response.</p>
+</blockquote>
+<p>Seems like we might not be able to roll our own HTTP client as easily as I&apos;d thought. No worries, other people have certainly hit this problem before. They&apos;ve even created their own free npm packages that we can use in our project to abstract away whatever issue we&apos;re running into.</p>
+<p>Let&apos;s try using <a href="https://github.com/axios/axios" target="_blank">the <code>axios</code> package</a> as our HTTP Client instead. It&apos;s a js library specifically designed for it.</p>
+<p>First, we&apos;ll need to install it as a dependency in our project:</p>
+<pre><code class="lang-bash">npm i -S axios
+</code></pre>
+<p>This time, we&apos;ve used the <code>-S</code> flag, which installs the package as a regular dependency, meaning that we&apos;re depending on it to actually run the app.</p>
+<p>After <code>axios</code> has been installed, we can use it in our <code>index.js</code> file. First, <code>require</code> it as a variable at the top of our file:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;http&apos;</span>);
+<span class="hljs-keyword">const</span> axios = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;axios&apos;</span>);
+<span class="hljs-comment">// ...</span>
+</code></pre>
+<p>Remove the <code>const characterUrl = ...</code> line and everything after. Replace it with the following lines of code:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
+<span class="hljs-comment">// ...</span>
+axios({
+  url: <span class="hljs-string">&apos;https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114&apos;</span>,
+  method: <span class="hljs-string">&apos;get&apos;</span>,
+  withCredentials: <span class="hljs-literal">true</span>,
+  headers: {
+    <span class="hljs-string">&apos;Cache-Control&apos;</span>: <span class="hljs-string">&apos;no-cache&apos;</span>,
+    <span class="hljs-string">&apos;Cookies&apos;</span>: <span class="hljs-string">&apos;foo=bar&apos;</span>,
+    <span class="hljs-string">&apos;User-Agent&apos;</span>: <span class="hljs-string">&apos;dnd-party-manager&apos;</span>,
+    <span class="hljs-string">&apos;Accept&apos;</span>: <span class="hljs-string">&apos;*/*&apos;</span>,
+    <span class="hljs-string">&apos;Accept-Encoding&apos;</span>: <span class="hljs-string">&apos;gzip, deflate, br&apos;</span>,
+    <span class="hljs-string">&apos;Connection&apos;</span>: <span class="hljs-string">&apos;keep-alive&apos;</span>
+  }
+}).then((resp) =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;Data: &apos;</span>, resp.data);
+}).catch((error) =&gt; {
+  <span class="hljs-built_in">console</span>.error(error);
+});
+</code></pre>
+<p>This <code>axios</code> call handles everything for us and now we&apos;re able to log the full page data for the requested url.</p>
+<p>So, now we&apos;ve gotten the html data, but we&apos;re also going to need to parse it so that we can organize it into a useful structure.</p>
+<p>Let&apos;s google &quot;node html parser&quot; to see what comes up: Ah, a <a href="https://github.com/cheeriojs/cheerio" target="_blank">package named <code>cheerio</code> seems useful</a>. But let&apos;s compare it to other similar packages on <a href="https://npmtrends.com" target="_blank">npmtrends.com</a>. First, I&apos;ll search for <a href="https://www.npmtrends.com/cheerio" target="_blank">cherrio</a>, and yep it seems popular enough, but let&apos;s now <a href="https://www.npmtrends.com/cheerio-vs-htmlparser2-vs-jsdom-vs-parse5-vs-scraper" target="_blank">compare it using a few of the suggested similar packages</a>. Okay wow <a href="https://github.com/inikulin/parse5" target="_blank">the <code>parse5</code> library</a> has a lot of downloads. Hmm, but it doesn&apos;t have as many stars on GitHub, so it&apos;s maybe not as intuitive to use. Well, I&apos;m going to bet on <code>cheerio</code> since it&apos;s README on GitHub was more inviting and it does have the most stars.</p>
+<p>Okay! So let&apos;s install <code>cheerio</code> into our project:</p>
+<pre><code class="lang-bash">npm i -S cheerio
+</code></pre>
+<p>Once it&apos;s installed, let&apos;s <code>require</code> it in the top of our <code>index.js</code> file:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;http&apos;</span>);
+<span class="hljs-keyword">const</span> axios = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;axios&apos;</span>);
+<span class="hljs-keyword">const</span> cheerio = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;cheerio&apos;</span>);
+<span class="hljs-comment">// ...</span>
+</code></pre>
+<p>And now let&apos;s use it to parse the html we receive in the <code>axios</code> response callback:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
+<span class="hljs-comment">// ...</span>
+}).then((resp) =&gt; {
+  <span class="hljs-keyword">const</span> $ = cheerio.load(resp.data);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;Title&apos;</span>, $(<span class="hljs-string">&apos;h1.page-title&apos;</span>).text().trim());
+}).catch((error) =&gt; {
+<span class="hljs-comment">// ...</span>
+</code></pre>
+<p>Now we&apos;re getting somewhere. Now, if we run <code>npm run serve</code>, our app should make a request to our character&apos;s page, parse the response html, and then print out our character&apos;s title like so: <code>&quot;Title: Rikstiivs&quot;</code> (my DnD character&apos;s name is Rikstiivs).</p>
+<p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.3" target="_blank">view <code>v0.0.3</code> here</a>.</p>
 
                                 
                                 </section>
@@ -330,7 +413,7 @@ server.listen(port, hostname, () =&gt; {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"next":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},"previous":{"title":"Posts","level":"1.2","depth":1,"path":"posts/README.md","ref":"posts/README.md","articles":[{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/dnd-party-app.md","mtime":"2020-04-14T02:05:52.779Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-14T02:06:29.365Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"next":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},"previous":{"title":"Posts","level":"1.2","depth":1,"path":"posts/README.md","ref":"posts/README.md","articles":[{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/dnd-party-app.md","mtime":"2020-04-14T03:28:23.933Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-14T03:29:05.958Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
