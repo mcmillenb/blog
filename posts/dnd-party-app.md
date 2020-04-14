@@ -27,7 +27,7 @@ First, let's add a couple scripts in the `package.json` file:
 
 ```json
 {
-  ...
+  // ...
   "scripts": {
     "test": "jest",
     "serve": "node src/index.js"
@@ -70,3 +70,118 @@ server.listen(port, hostname, () => {
 Now, from your project's root directory, run `npm run serve` to make sure that node can serve the app as expected. You should see a `"Server running at http://127.0.0.1:3000"` message and visiting <http://127.0.0.1:3000> should load with a "Hello World" message in the browser.
 
 If you want to see the code at this point, you can [view `v0.0.2` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.2).
+
+### Parse data from DnD Beyond character page
+
+So now we have a basic node app that we can run via `npm run serve`. Let's start trying to get our DnD character's data in our app.
+
+Our app is using the built-in `http` library to create a server. [Looking at the docs](https://nodejs.org/api/http.html), it seems like we can also use this library to make requests via [the `http.request` method](https://nodejs.org/api/http.html#http_http_request_url_options_callback).
+
+Following the example for the `http.request` method in the docs, let's add these few lines of code to the bottom of our `index.js` file, using the url for our DnD character:
+
+```js
+// src/index.js
+// ...
+const characterUrl = 'https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114';
+const req = http.request(characterUrl, (resp) => {
+  resp.setEncoding('utf8');
+  resp.on('data', (data) => {
+    console.log(`BODY: ${data}`);
+  });
+  resp.on('end', () => {
+    console.log('No more data in response.');
+  });
+});
+req.end();
+```
+
+Hmm, if we try running this via `npm run serve`, we get an error saying:
+
+> Protocol "https:" not supported. Expected "http:"
+
+And if we change the `https:` to `http:` we just get this message:
+
+> No more data in response.
+
+Seems like we might not be able to roll our own HTTP client as easily as I'd thought. No worries, other people have certainly hit this problem before. They've even created their own free npm packages that we can use in our project to abstract away whatever issue we're running into.
+
+Let's try using [the `axios` package](https://github.com/axios/axios) as our HTTP Client instead. It's a js library specifically designed for it.
+
+First, we'll need to install it as a dependency in our project:
+
+```bash
+npm i -S axios
+```
+
+This time, we've used the `-S` flag, which installs the package as a regular dependency, meaning that we're depending on it to actually run the app.
+
+After `axios` has been installed, we can use it in our `index.js` file. First, `require` it as a variable at the top of our file:
+
+```js
+// src/index.js
+const http = require('http');
+const axios = require('axios');
+// ...
+```
+
+Remove the `const characterUrl = ...` line and everything after. Replace it with the following lines of code:
+
+```js
+// src/index.js
+// ...
+axios({
+  url: 'https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114',
+  method: 'get',
+  withCredentials: true,
+  headers: {
+    'Cache-Control': 'no-cache',
+    'Cookies': 'foo=bar',
+    'User-Agent': 'dnd-party-manager',
+    'Accept': '*/*',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive'
+  }
+}).then((resp) => {
+  console.log('Data: ', resp.data);
+}).catch((error) => {
+  console.error(error);
+});
+```
+
+This `axios` call handles everything for us and now we're able to log the full page data for the requested url.
+
+So, now we've gotten the html data, but we're also going to need to parse it so that we can organize it into a useful structure.
+
+Let's google "node html parser" to see what comes up: Ah, a [package named `cheerio` seems useful](https://github.com/cheeriojs/cheerio). But let's compare it to other similar packages on [npmtrends.com](https://npmtrends.com). First, I'll search for [cherrio](https://www.npmtrends.com/cheerio), and yep it seems popular enough, but let's now [compare it using a few of the suggested similar packages](https://www.npmtrends.com/cheerio-vs-htmlparser2-vs-jsdom-vs-parse5-vs-scraper). Okay wow [the `parse5` library](https://github.com/inikulin/parse5) has a lot of downloads. Hmm, but it doesn't have as many stars on GitHub, so it's maybe not as intuitive to use. Well, I'm going to bet on `cheerio` since it's README on GitHub was more inviting and it does have the most stars.
+
+Okay! So let's install `cheerio` into our project:
+
+```bash
+npm i -S cheerio
+```
+
+Once it's installed, let's `require` it in the top of our `index.js` file:
+
+```js
+// src/index.js
+const http = require('http');
+const axios = require('axios');
+const cheerio = require('cheerio');
+// ...
+```
+
+And now let's use it to parse the html we receive in the `axios` response callback:
+
+```js
+// src/index.js
+// ...
+}).then((resp) => {
+  const $ = cheerio.load(resp.data);
+  console.log('Title', $('h1.page-title').text().trim());
+}).catch((error) => {
+// ...
+```
+
+Now we're getting somewhere. Now, if we run `npm run serve`, our app should make a request to our character's page, parse the response html, and then print out our character's title like so: `"Title: Rikstiivs"` (my DnD character's name is Rikstiivs).
+
+If you want to see the code at this point, you can [view `v0.0.3` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.3).
