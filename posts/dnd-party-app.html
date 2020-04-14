@@ -370,6 +370,30 @@ axios({
 </code></pre>
 <p>Now we&apos;re getting somewhere. Now, if we run <code>npm run serve</code>, our app should make a request to our character&apos;s page, parse the response html, and then print out our character&apos;s title like so: <code>&quot;Title: Rikstiivs&quot;</code> (my DnD character&apos;s name is Rikstiivs).</p>
 <p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.3" target="_blank">view <code>v0.0.3</code> here</a>.</p>
+<h2 id="display-the-data">Display the data</h2>
+<p>So now we have a server, and we&apos;re able to fetch and parse the data for our DnD Beyond character. But we only see that data in the terminal. We need to figure out some way to display the data in the server&apos;s response so that we get the formatted info we want when we load our app.</p>
+<p>The easiest thing to do will be to just take out that <code>const server = ...</code> and <code>server.listen(...)</code> code and jam it into the axios response callback, like so:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
+<span class="hljs-comment">// ...</span>
+}).then((resp) =&gt; {
+  <span class="hljs-keyword">const</span> $ = cheerio.load(resp.data);
+  <span class="hljs-keyword">const</span> title = $(<span class="hljs-string">&apos;h1.page-title&apos;</span>).text().trim();
+
+  <span class="hljs-keyword">const</span> server = http.createServer((req, res) =&gt; {
+    res.statusCode = <span class="hljs-number">200</span>;
+    res.setHeader(<span class="hljs-string">&apos;Content-Type&apos;</span>, <span class="hljs-string">&apos;text/plain&apos;</span>);
+    res.end(<span class="hljs-string">`Title: <span class="hljs-subst">${title}</span>`</span>);
+  });
+
+  server.listen(port, hostname, () =&gt; {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server running at http://<span class="hljs-subst">${hostname}</span>:<span class="hljs-subst">${port}</span>/`</span>);
+  });
+}).catch((error) =&gt; {
+<span class="hljs-comment">// ...</span>
+</code></pre>
+<p>Now, when we run <code>npm run serve</code> and then navigate to <a href="http://127.0.0.1:3000" target="_blank">http://127.0.0.1:3000</a>, we should see &quot;Title: [Your Character&apos;s Name]&quot; displayed.</p>
+<p>We&apos;ll almost certainly need to take this code back out and handle the data fetching and serving in a more flexible way. But for now it works!</p>
+<p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.4" target="_blank">view <code>v0.0.4</code> here</a>.</p>
 
                                 
                                 </section>
@@ -413,7 +437,7 @@ axios({
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"next":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},"previous":{"title":"Posts","level":"1.2","depth":1,"path":"posts/README.md","ref":"posts/README.md","articles":[{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/dnd-party-app.md","mtime":"2020-04-14T03:28:23.933Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-14T03:29:05.958Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"next":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},"previous":{"title":"Posts","level":"1.2","depth":1,"path":"posts/README.md","ref":"posts/README.md","articles":[{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/dnd-party-app.md","mtime":"2020-04-14T03:58:36.945Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-14T03:59:16.099Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
