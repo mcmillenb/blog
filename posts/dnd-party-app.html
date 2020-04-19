@@ -395,7 +395,41 @@ axios({
 <p>We&apos;ll almost certainly need to take this code back out and handle the data fetching and serving in a more flexible way. But for now it works!</p>
 <p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.4" target="_blank">view <code>v0.0.4</code> here</a>.</p>
 <h2 id="wait-wheres-the-rest-of-the-data">Wait where&apos;s the rest of the data?</h2>
-<p>(coming soon)</p>
+<p>So, here&apos;s the thing: what it looks like is happening is that we aren&apos;t getting the fully loaded page with the <code>axios</code> call. A lot of webpages will initially only load basic html and then use JavaScript to add the rest of the functionality or content. Seems like the page for the DnD Beyond character sheet is doing just that. We are able to get the character&apos;s name, but if we look through the rest of the html, we&apos;re only getting the header content before seeing a bunch of <code>&lt;script&gt;</code> tags which are assumably being used to then load the rest of the page&apos;s content.</p>
+<p>So what does that mean? Well, <code>axios</code> probably won&apos;t work for getting the data from the DnD Beyond page after all. So, let&apos;s get rid of it and try out another library that might get the job done: <code>puppeteer</code>. I&apos;ve heard of this library before, and know that it functions closer to a web browser and should be able to load the content of a page after it&apos;s fully loaded.</p>
+<p>So first let&apos;s remove the <code>const axios = require(&apos;axios&apos;)</code> statement at the top of the file and replace it with `</p>
+<p>Okay so first let&apos;s install <code>puppeteer</code> and uninstall <code>axios</code> (using the <code>un</code> command instead of <code>i</code>):</p>
+<pre><code class="lang-bash">npm i -S puppeteer
+npm un -S axios
+</code></pre>
+<p>Now let&apos;s <code>require</code> it instead of <code>axios</code> in the top of our <code>index.js</code> file:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;http&apos;</span>);
+<span class="hljs-keyword">const</span> puppeteer = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;puppeteer&apos;</span>);
+<span class="hljs-keyword">const</span> cheerio = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;cheerio&apos;</span>);
+<span class="hljs-comment">// ...</span>
+</code></pre>
+<p>Now let&apos;s write our own function, using the <code>puppeteer</code> library, to get the html of any given page:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getHtml</span>(<span class="hljs-params">url</span>) </span>{
+  <span class="hljs-keyword">const</span> browser = <span class="hljs-keyword">await</span> puppeteer.launch({ headless: <span class="hljs-literal">false</span> });
+  <span class="hljs-keyword">const</span> page = <span class="hljs-keyword">await</span> browser.newPage();
+  <span class="hljs-keyword">await</span> page.goto(url, { waitUntil: <span class="hljs-string">&apos;networkidle2&apos;</span> });
+  <span class="hljs-keyword">const</span> html = <span class="hljs-keyword">await</span> page.content();
+  <span class="hljs-keyword">await</span> browser.close();
+  <span class="hljs-keyword">return</span> html;
+}
+</code></pre>
+<p>The <code>puppeteer</code> library comes installed with <a href="https://www.chromium.org/" target="_blank">Chromium</a>, which is an open-source browser that Google Chrome is based off of. So, in the first line of the <code>getHtml</code> function, we are actually launching a browser that we&apos;ll be able to load webpages with. The second line is telling the browser to open a new page and the third line is telling the page to go to the <code>url</code> that gets passed in as the parameter of the function. the <code>{ waitUntil: &apos;networkidle2&apos; }</code> config object is telling the page to wait until the page has completely loaded before resolving and allowing our function to continue. The next line gets the <code>html</code> content from the page, and the line after that closes the browser. Finally, our function returns the <code>html</code> that was retrieved from the page.</p>
+<p>We can add that function to the top of the page and then we can replace the entire <code>axios</code> call with simply <code>getHtml(characterUrl)</code>.</p>
+<p>Since we&apos;re returning the <code>html</code> just like the <code>axios</code> call was, we can keep the <code>then</code> handler and just tweak the param being passed to it:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// ...</span>
+getHtml(characterUrl).then((html) =&gt; {
+  <span class="hljs-keyword">const</span> $ = cheerio.load(html);
+  <span class="hljs-comment">// ...</span>
+});
+</code></pre>
+<p>At this point we should be able to run the <code>npm run serve</code> command and see the same results as when we used <code>axios</code>.</p>
+<p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.5" target="_blank">view <code>v0.0.5</code> here</a>.</p>
 
                                 
                                 </section>
@@ -439,7 +473,7 @@ axios({
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"next":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},"previous":{"title":"Posts","level":"1.2","depth":1,"path":"posts/README.md","ref":"posts/README.md","articles":[{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/dnd-party-app.md","mtime":"2020-04-14T04:06:38.915Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-14T04:07:16.572Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"next":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},"previous":{"title":"Posts","level":"1.2","depth":1,"path":"posts/README.md","ref":"posts/README.md","articles":[{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/dnd-party-app.md","mtime":"2020-04-19T23:27:57.919Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-19T23:28:37.500Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
