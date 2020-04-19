@@ -220,4 +220,56 @@ If you want to see the code at this point, you can [view `v0.0.4` here](https://
 
 ## Wait where's the rest of the data?
 
-(coming soon)
+So, here's the thing: what it looks like is happening is that we aren't getting the fully loaded page with the `axios` call. A lot of webpages will initially only load basic html and then use JavaScript to add the rest of the functionality or content. Seems like the page for the DnD Beyond character sheet is doing just that. We are able to get the character's name, but if we look through the rest of the html, we're only getting the header content before seeing a bunch of `<script>` tags which are assumably being used to then load the rest of the page's content.
+
+So what does that mean? Well, `axios` probably won't work for getting the data from the DnD Beyond page after all. So, let's get rid of it and try out another library that might get the job done: `puppeteer`. I've heard of this library before, and know that it functions closer to a web browser and should be able to load the content of a page after it's fully loaded.
+
+So first let's remove the `const axios = require('axios')` statement at the top of the file and replace it with `
+
+Okay so first let's install `puppeteer` and uninstall `axios` (using the `un` command instead of `i`):
+
+```bash
+npm i -S puppeteer
+npm un -S axios
+```
+
+Now let's `require` it instead of `axios` in the top of our `index.js` file:
+
+```js
+// src/index.js
+const http = require('http');
+const puppeteer = require('puppeteer');
+const cheerio = require('cheerio');
+// ...
+```
+
+Now let's write our own function, using the `puppeteer` library, to get the html of any given page:
+
+```js
+async function getHtml(url) {
+  const browser = await puppeteer.launch({ headless: false });
+  const page = await browser.newPage();
+  await page.goto(url, { waitUntil: 'networkidle2' });
+  const html = await page.content();
+  await browser.close();
+  return html;
+}
+```
+
+The `puppeteer` library comes installed with [Chromium](https://www.chromium.org/), which is an open-source browser that Google Chrome is based off of. So, in the first line of the `getHtml` function, we are actually launching a browser that we'll be able to load webpages with. The second line is telling the browser to open a new page and the third line is telling the page to go to the `url` that gets passed in as the parameter of the function. the `{ waitUntil: 'networkidle2' }` config object is telling the page to wait until the page has completely loaded before resolving and allowing our function to continue. The next line gets the `html` content from the page, and the line after that closes the browser. Finally, our function returns the `html` that was retrieved from the page.
+
+We can add that function to the top of the page and then we can replace the entire `axios` call with simply `getHtml(characterUrl)`.
+
+Since we're returning the `html` just like the `axios` call was, we can keep the `then` handler and just tweak the param being passed to it:
+
+```js
+// ...
+getHtml(characterUrl).then((html) => {
+  const $ = cheerio.load(html);
+  // ...
+});
+```
+
+At this point we should be able to run the `npm run serve` command and see the same results as when we used `axios`.
+
+If you want to see the code at this point, you can [view `v0.0.5` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.5).
