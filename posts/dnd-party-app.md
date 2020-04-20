@@ -256,7 +256,7 @@ async function getHtml(url) {
 }
 ```
 
-The `puppeteer` library comes installed with [Chromium](https://www.chromium.org/), which is an open-source browser that Google Chrome is based off of. So, in the first line of the `getHtml` function, we are actually launching a browser that we'll be able to load webpages with. The second line is telling the browser to open a new page and the third line is telling the page to go to the `url` that gets passed in as the parameter of the function. the `{ waitUntil: 'networkidle2' }` config object is telling the page to wait until the page has completely loaded before resolving and allowing our function to continue. The next line gets the `html` content from the page, and the line after that closes the browser. Finally, our function returns the `html` that was retrieved from the page.
+The `puppeteer` library comes installed with [Chromium](https://www.chromium.org/), which is an open-source browser that Google Chrome is based off of. So, in the first line of the `getHtml` function, we are actually launching a browser that we'll be able to load webpages with. The second line is telling the browser to open a new page and the third line is telling the page to go to the `url` that gets passed in as the parameter of the function. The `{ waitUntil: 'networkidle2' }` config object is telling the page to wait until the page has completely loaded before resolving and allowing our function to continue. The next line gets the `html` content from the page, and the line after that closes the browser. Finally, our function returns the `html` that was retrieved from the page.
 
 We can add that function to the top of the page and then we can replace the entire `axios` call with simply `getHtml(characterUrl)`.
 
@@ -270,6 +270,80 @@ getHtml(characterUrl).then((html) => {
 });
 ```
 
-At this point we should be able to run the `npm run serve` command and see the same results as when we used `axios`.
+At this point we should be able to run the `npm run serve` command and see the same results as when we used `axios` in the previous section.
 
 If you want to see the code at this point, you can [view `v0.0.5` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.5).
+
+## Parsing some useful data
+
+In the last section we switched tactics to use the `puppeteer` library to render the content of the DnD Beyond webpage and read it in our app. So, now let's explore that content to parse out some useful stats from our DnD character.
+
+Let's first go to the actual page that we are trying to parse information out of. For example, [here in the character sheet](https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114') for my character named Rikstiivs. On that page we can right-click a stat that we're interested in and choose the "Inspect" option from the menu that pops up. The dev tools will open up and we'll be able to see where in the html the stat is located and what css classes it has. This will be helpful for accessing it with the `cheerio` library.
+
+Here's what my character sheet looked like at the time of writing this:
+
+![DnD Beyond Character Sheet](/assets/images/DnD_character_sheet.png)
+
+As an example, we can right-click on the Strength stat at the top-left corner of the character sheet and "Inspect" it (the 23, not the +6 modifier value). It looks like the element displaying the 23 has a `ct-ability-summary__secondary` class, and so do the other elements displaying these six main stats. So, in our code, let's try to access that value using a css selector in the `cheerio` instance we've already created:
+
+```js
+// ...
+const title = $('h1.page-title').text().trim();
+const stat = '.ct-ability-summary__secondary';
+const strength = $(stat).eq(0).text();
+
+console.log({ strength });
+// ...
+```
+
+The above code should print `{ strength: '26' }` to the console when we run `npm run serve`.
+
+We can now use the same logic to get the values for each of the six main stats and then render those values in the server's response. The entire `then` callback will then look something like this:
+
+```js
+// ...
+getHtml(characterUrl).then((html) => {
+  const $ = cheerio.load(html);
+  const title = $('h1.page-title').text().trim();
+  const stats = $('.ct-ability-summary__secondary');
+  const str = stats.eq(0).text();
+  const dex = stats.eq(1).text();
+  const con = stats.eq(2).text();
+  const int = stats.eq(3).text();
+  const wis = stats.eq(4).text();
+  const cha = stats.eq(5).text();
+
+  const server = http.createServer((req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end(`
+      Title: ${title}
+      STR ${str}
+      DEX ${dex}
+      CON ${con}
+      INT ${int}
+      WIS ${wis}
+      CHA ${cha}
+    `);
+  });
+
+  server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+  });
+});
+// ...
+```
+
+And now, when we run `npm run serve` and then navigate to `127.0.0.1:3000`, we should see a page rendered with the following text:
+
+```txt
+Title: Rikstiivs
+STR 23
+DEX 15
+CON 14
+INT 12
+WIS 14
+CHA 12
+```
+
+If you want to see the code at this point, you can [view `v0.0.6` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.6).
