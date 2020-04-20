@@ -419,7 +419,7 @@ npm un -S axios
   <span class="hljs-keyword">return</span> html;
 }
 </code></pre>
-<p>The <code>puppeteer</code> library comes installed with <a href="https://www.chromium.org/" target="_blank">Chromium</a>, which is an open-source browser that Google Chrome is based off of. So, in the first line of the <code>getHtml</code> function, we are actually launching a browser that we&apos;ll be able to load webpages with. The second line is telling the browser to open a new page and the third line is telling the page to go to the <code>url</code> that gets passed in as the parameter of the function. the <code>{ waitUntil: &apos;networkidle2&apos; }</code> config object is telling the page to wait until the page has completely loaded before resolving and allowing our function to continue. The next line gets the <code>html</code> content from the page, and the line after that closes the browser. Finally, our function returns the <code>html</code> that was retrieved from the page.</p>
+<p>The <code>puppeteer</code> library comes installed with <a href="https://www.chromium.org/" target="_blank">Chromium</a>, which is an open-source browser that Google Chrome is based off of. So, in the first line of the <code>getHtml</code> function, we are actually launching a browser that we&apos;ll be able to load webpages with. The second line is telling the browser to open a new page and the third line is telling the page to go to the <code>url</code> that gets passed in as the parameter of the function. The <code>{ waitUntil: &apos;networkidle2&apos; }</code> config object is telling the page to wait until the page has completely loaded before resolving and allowing our function to continue. The next line gets the <code>html</code> content from the page, and the line after that closes the browser. Finally, our function returns the <code>html</code> that was retrieved from the page.</p>
 <p>We can add that function to the top of the page and then we can replace the entire <code>axios</code> call with simply <code>getHtml(characterUrl)</code>.</p>
 <p>Since we&apos;re returning the <code>html</code> just like the <code>axios</code> call was, we can keep the <code>then</code> handler and just tweak the param being passed to it:</p>
 <pre><code class="lang-js"><span class="hljs-comment">// ...</span>
@@ -428,8 +428,66 @@ getHtml(characterUrl).then((html) =&gt; {
   <span class="hljs-comment">// ...</span>
 });
 </code></pre>
-<p>At this point we should be able to run the <code>npm run serve</code> command and see the same results as when we used <code>axios</code>.</p>
+<p>At this point we should be able to run the <code>npm run serve</code> command and see the same results as when we used <code>axios</code> in the previous section.</p>
 <p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.5" target="_blank">view <code>v0.0.5</code> here</a>.</p>
+<h2 id="parsing-some-useful-data">Parsing some useful data</h2>
+<p>In the last section we switched tactics to use the <code>puppeteer</code> library to render the content of the DnD Beyond webpage and read it in our app. So, now let&apos;s explore that content to parse out some useful stats from our DnD character.</p>
+<p>Let&apos;s first go to the actual page that we are trying to parse information out of. For example, <a href="https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114&apos;" target="_blank">here in the character sheet</a> for my character named Rikstiivs. On that page we can right-click a stat that we&apos;re interested in and choose the &quot;Inspect&quot; option from the menu that pops up. The dev tools will open up and we&apos;ll be able to see where in the html the stat is located and what css classes it has. This will be helpful for accessing it with the <code>cheerio</code> library.</p>
+<p>Here&apos;s what my character sheet looked like at the time of writing this:</p>
+<p><img src="../assets/images/DnD_character_sheet.png" alt="DnD Beyond Character Sheet"></p>
+<p>As an example, we can right-click on the Strength stat at the top-left corner of the character sheet and &quot;Inspect&quot; it (the 23, not the +6 modifier value). It looks like the element displaying the 23 has a <code>ct-ability-summary__secondary</code> class, and so do the other elements displaying these six main stats. So, in our code, let&apos;s try to access that value using a css selector in the <code>cheerio</code> instance we&apos;ve already created:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">const</span> title = $(<span class="hljs-string">&apos;h1.page-title&apos;</span>).text().trim();
+<span class="hljs-keyword">const</span> stat = <span class="hljs-string">&apos;.ct-ability-summary__secondary&apos;</span>;
+<span class="hljs-keyword">const</span> strength = $(stat).eq(<span class="hljs-number">0</span>).text();
+
+<span class="hljs-built_in">console</span>.log({ strength });
+<span class="hljs-comment">// ...</span>
+</code></pre>
+<p>The above code should print <code>{ strength: &apos;26&apos; }</code> to the console when we run <code>npm run serve</code>.</p>
+<p>We can now use the same logic to get the values for each of the six main stats and then render those values in the server&apos;s response. The entire <code>then</code> callback will then look something like this:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// ...</span>
+getHtml(characterUrl).then((html) =&gt; {
+  <span class="hljs-keyword">const</span> $ = cheerio.load(html);
+  <span class="hljs-keyword">const</span> title = $(<span class="hljs-string">&apos;h1.page-title&apos;</span>).text().trim();
+  <span class="hljs-keyword">const</span> stats = $(<span class="hljs-string">&apos;.ct-ability-summary__secondary&apos;</span>);
+  <span class="hljs-keyword">const</span> str = stats.eq(<span class="hljs-number">0</span>).text();
+  <span class="hljs-keyword">const</span> dex = stats.eq(<span class="hljs-number">1</span>).text();
+  <span class="hljs-keyword">const</span> con = stats.eq(<span class="hljs-number">2</span>).text();
+  <span class="hljs-keyword">const</span> int = stats.eq(<span class="hljs-number">3</span>).text();
+  <span class="hljs-keyword">const</span> wis = stats.eq(<span class="hljs-number">4</span>).text();
+  <span class="hljs-keyword">const</span> cha = stats.eq(<span class="hljs-number">5</span>).text();
+
+  <span class="hljs-keyword">const</span> server = http.createServer((req, res) =&gt; {
+    res.statusCode = <span class="hljs-number">200</span>;
+    res.setHeader(<span class="hljs-string">&apos;Content-Type&apos;</span>, <span class="hljs-string">&apos;text/plain&apos;</span>);
+    res.end(<span class="hljs-string">`
+      Title: <span class="hljs-subst">${title}</span>
+      STR <span class="hljs-subst">${str}</span>
+      DEX <span class="hljs-subst">${dex}</span>
+      CON <span class="hljs-subst">${con}</span>
+      INT <span class="hljs-subst">${int}</span>
+      WIS <span class="hljs-subst">${wis}</span>
+      CHA <span class="hljs-subst">${cha}</span>
+    `</span>);
+  });
+
+  server.listen(port, hostname, () =&gt; {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server running at http://<span class="hljs-subst">${hostname}</span>:<span class="hljs-subst">${port}</span>/`</span>);
+  });
+});
+<span class="hljs-comment">// ...</span>
+</code></pre>
+<p>And now, when we run <code>npm run serve</code> and then navigate to <code>127.0.0.1:3000</code>, we should see a page rendered with the following text:</p>
+<pre><code class="lang-txt">Title: Rikstiivs
+STR 23
+DEX 15
+CON 14
+INT 12
+WIS 14
+CHA 12
+</code></pre>
+<p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.6" target="_blank">view <code>v0.0.6</code> here</a>.</p>
 
                                 
                                 </section>
@@ -473,7 +531,7 @@ getHtml(characterUrl).then((html) =&gt; {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"next":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},"previous":{"title":"Posts","level":"1.2","depth":1,"path":"posts/README.md","ref":"posts/README.md","articles":[{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/dnd-party-app.md","mtime":"2020-04-19T23:27:57.919Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-19T23:28:37.500Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"next":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},"previous":{"title":"Posts","level":"1.2","depth":1,"path":"posts/README.md","ref":"posts/README.md","articles":[{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/dnd-party-app.md","mtime":"2020-04-20T03:37:53.990Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-20T03:38:39.313Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
