@@ -20,8 +20,7 @@ jobs:
       run: npm i
     - name: 'Generating distributable files'
       run: |
-        gitbook install
-        gitbook build
+        npm run build
         cp ./CNAME ./blog/.vuepress/dist/CNAME
     - uses: peaceiris/actions-gh-pages@v2.5.0
       env:
