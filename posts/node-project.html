@@ -1,404 +1,80 @@
-
-<!DOCTYPE HTML>
-<html lang="" >
-    <head>
-        <meta charset="UTF-8">
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Node Project in VS Code · GitBook</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.3">
-        
-        
-        
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Node Project in VS Code</title>
+    <meta name="generator" content="VuePress 1.4.1">
     
-    <link rel="stylesheet" href="../gitbook/style.css">
+    <meta name="description" content="">
+    <link rel="preload" href="/assets/css/0.styles.e23ba8da.css" as="style"><link rel="preload" href="/assets/js/app.8e89f879.js" as="script"><link rel="preload" href="/assets/js/2.9e75d588.js" as="script"><link rel="preload" href="/assets/js/9.aa66524e.js" as="script"><link rel="prefetch" href="/assets/js/10.d2988108.js"><link rel="prefetch" href="/assets/js/11.e385aa8e.js"><link rel="prefetch" href="/assets/js/12.a77c7d53.js"><link rel="prefetch" href="/assets/js/3.8e5e27b2.js"><link rel="prefetch" href="/assets/js/4.521a026b.js"><link rel="prefetch" href="/assets/js/5.f887cf79.js"><link rel="prefetch" href="/assets/js/6.28ab411b.js"><link rel="prefetch" href="/assets/js/7.8d57acfa.js"><link rel="prefetch" href="/assets/js/8.ba94abaf.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e23ba8da.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="node-project-in-vs-code"><a href="#node-project-in-vs-code" class="header-anchor">#</a> Node Project in VS Code</h1> <p>The following section will describe why I like JavaScript, Node, and VS Code as my default project setup. If you're not interested in that and just want to get the dang thing running, jump to the next section.</p> <p>I like programming in JavaScript, because it's so versatile. It's super unopinionated, which means it has a very low barrier-to-entry. (It also means that you can develop bad habits if you're not careful, so look up <a href="https://jstherightway.org/" target="_blank" rel="noopener noreferrer">best practices<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> and then break them when you need to.)</p> <p>I like <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">Node<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> because it's written in JavaScript and allows you to run server-side code. I remember in college (2010 - 2014) my CS Professor saying that Node was an interesting idea, but wouldn't ever be seriously used in the &quot;real world&quot;, because it's so much slower compared to other server-side languages. Well, that professor was wrong. Node is used all the time for all different types of applications, nevermind how slow it is. It gets the job done and doesn't require you to learn a new language if you already know JavaScript. It also comes with the unopinionateness of JS that you don't get with other languages. (Some people really like things to be opinionated btw, so this isn't innately a good thing.) But, anyways, I like Node and, at least for my projects, I'll use it when I can.</p> <p>I like using <a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer">VS Code<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> as an IDE, because it's free, highly customizable, has a large community of users supporting it, and has a <a href="https://code.visualstudio.com/docs/editor/integrated-terminal" target="_blank" rel="noopener noreferrer">built-in terminal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>. I used Eclipse in college, when I mostly programmed in Java. Then, I used Sublime for a while when I was programming in JavaScript professionally. But for the past three or so years I've been using VS Code for pretty much anything (even Java code for my actual job). VS Code has extensions for almost every language or type of file, and the customizing makes it easy to tweak anything that frustrates me about the default settings.</p> <p>All of that to say: I like using Node in VS Code as a default setup for personal projects, because I am familiar with them and they allow me the lowest barrier-to-entry when wanting to test out a new idea. But I also believe they are inherently easy to pick up and would be a good starting point for anyone following along in my walkthroughs, so I'd encourage anyone to try them out.</p> <h2 id="installing-vs-code"><a href="#installing-vs-code" class="header-anchor">#</a> Installing VS Code</h2> <p>You can install VS Code here: <a href="https://code.visualstudio.com/download" target="_blank" rel="noopener noreferrer">https://code.visualstudio.com/download<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <h2 id="installing-node"><a href="#installing-node" class="header-anchor">#</a> Installing Node</h2> <p>You can install Node here: <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener noreferrer">https://nodejs.org/en/download/<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <p>Node should come installed with the Node Package Manager (<code>npm</code>), but if it doesn't you can install it from here: <a href="https://www.npmjs.com/get-npm" target="_blank" rel="noopener noreferrer">https://www.npmjs.com/get-npm<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>.</p> <h2 id="simple-node-project"><a href="#simple-node-project" class="header-anchor">#</a> Simple Node Project</h2> <p>Once you have VS Code and Node installed, create a new folder in your file manager and then open it with VS Code. You should then add a single <code>index.js</code> file to the project folder and add the following code to the file:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    
-            
-                
-                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
-                
-            
-                
-                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
-                
-            
-                
-                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
-                
-            
-        
+<span class="token keyword">const</span> hostname <span class="token operator">=</span> <span class="token string">'127.0.0.1'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> port <span class="token operator">=</span> <span class="token number">3000</span><span class="token punctuation">;</span>
 
-    
+<span class="token keyword">const</span> server <span class="token operator">=</span> http<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span>statusCode <span class="token operator">=</span> <span class="token number">200</span><span class="token punctuation">;</span>
+  res<span class="token punctuation">.</span><span class="token function">setHeader</span><span class="token punctuation">(</span><span class="token string">'Content-Type'</span><span class="token punctuation">,</span> <span class="token string">'text/plain'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'Hello World'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
-        
-    
-    
-    <meta name="HandheldFriendly" content="true"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
-    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
-
-    
-    <link rel="next" href="push-to-github.html" />
-    
-    
-    <link rel="prev" href="dnd-party-app.html" />
-    
-
-    </head>
-    <body>
-        
-<div class="book">
-    <div class="book-summary">
-        
-            
-<div id="book-search-input" role="search">
-    <input type="text" placeholder="Type to search" />
-</div>
-
-            
-                <nav role="navigation">
-                
-
-
-<ul class="summary">
-    
-    
-
-    
-
-    
-        
-        
-    
-        <li class="chapter " data-level="1.1" data-path="../">
-            
-                <a href="../">
-            
-                    
-                    Blog
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.2" data-path="./">
-            
-                <a href="./">
-            
-                    
-                    Posts
-            
-                </a>
-            
-
-            
-            <ul class="articles">
-                
-    
-        <li class="chapter " data-level="1.2.1" data-path="dnd-party-app.html">
-            
-                <a href="dnd-party-app.html">
-            
-                    
-                    DnD Party Management App
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter active" data-level="1.2.2" data-path="node-project.html">
-            
-                <a href="node-project.html">
-            
-                    
-                    Node Project in VS Code
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.2.3" data-path="push-to-github.html">
-            
-                <a href="push-to-github.html">
-            
-                    
-                    Push a Project to GitHub
-            
-                </a>
-            
-
-            
-        </li>
-    
-
-            </ul>
-            
-        </li>
-    
-        <li class="chapter " data-level="1.3" data-path="../thoughts/">
-            
-                <a href="../thoughts/">
-            
-                    
-                    Thoughts
-            
-                </a>
-            
-
-            
-            <ul class="articles">
-                
-    
-        <li class="chapter " data-level="1.3.1" data-path="../thoughts/project-ideas.html">
-            
-                <a href="../thoughts/project-ideas.html">
-            
-                    
-                    Project Ideas
-            
-                </a>
-            
-
-            
-        </li>
-    
-
-            </ul>
-            
-        </li>
-    
-
-    
-
-    <li class="divider"></li>
-
-    <li>
-        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Published with GitBook
-        </a>
-    </li>
-</ul>
-
-
-                </nav>
-            
-        
-    </div>
-
-    <div class="book-body">
-        
-            <div class="body-inner">
-                
-                    
-
-<div class="book-header" role="navigation">
-    
-
-    <!-- Title -->
-    <h1>
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Node Project in VS Code</a>
-    </h1>
-</div>
-
-
-
-
-                    <div class="page-wrapper" tabindex="-1" role="main">
-                        <div class="page-inner">
-                            
-<div id="book-search-results">
-    <div class="search-noresults">
-    
-                                <section class="normal markdown-section">
-                                
-                                <h1 id="node-project-in-vs-code">Node Project in VS Code</h1>
-<p>The following section will describe why I like JavaScript, Node, and VS Code as my default project setup. If you&apos;re not interested in that and just want to get the dang thing running, jump to the next section.</p>
-<p>I like programming in JavaScript, because it&apos;s so versatile. It&apos;s super unopinionated, which means it has a very low barrier-to-entry. (It also means that you can develop bad habits if you&apos;re not careful, so look up <a href="https://jstherightway.org/" target="_blank">best practices</a> and then break them when you need to.)</p>
-<p>I like <a href="https://nodejs.org" target="_blank">Node</a> because it&apos;s written in JavaScript and allows you to run server-side code. I remember in college (2010 - 2014) my CS Professor saying that Node was an interesting idea, but wouldn&apos;t ever be seriously used in the &quot;real world&quot;, because it&apos;s so much slower compared to other server-side languages. Well, that professor was wrong. Node is used all the time for all different types of applications, nevermind how slow it is. It gets the job done and doesn&apos;t require you to learn a new language if you already know JavaScript. It also comes with the unopinionateness of JS that you don&apos;t get with other languages. (Some people really like things to be opinionated btw, so this isn&apos;t innately a good thing.) But, anyways, I like Node and, at least for my projects, I&apos;ll use it when I can.</p>
-<p>I like using <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> as an IDE, because it&apos;s free, highly customizable, has a large community of users supporting it, and has a <a href="https://code.visualstudio.com/docs/editor/integrated-terminal" target="_blank">built-in terminal</a>. I used Eclipse in college, when I mostly programmed in Java. Then, I used Sublime for a while when I was programming in JavaScript professionally. But for the past three or so years I&apos;ve been using VS Code for pretty much anything (even Java code for my actual job). VS Code has extensions for almost every language or type of file, and the customizing makes it easy to tweak anything that frustrates me about the default settings.</p>
-<p>All of that to say: I like using Node in VS Code as a default setup for personal projects, because I am familiar with them and they allow me the lowest barrier-to-entry when wanting to test out a new idea. But I also believe they are inherently easy to pick up and would be a good starting point for anyone following along in my walkthroughs, so I&apos;d encourage anyone to try them out.</p>
-<h2 id="installing-vs-code">Installing VS Code</h2>
-<p>You can install VS Code here: <a href="https://code.visualstudio.com/download" target="_blank">https://code.visualstudio.com/download</a></p>
-<h2 id="installing-node">Installing Node</h2>
-<p>You can install Node here: <a href="https://nodejs.org/en/download/" target="_blank">https://nodejs.org/en/download/</a></p>
-<p>Node should come installed with the Node Package Manager (<code>npm</code>), but if it doesn&apos;t you can install it from here: <a href="https://www.npmjs.com/get-npm" target="_blank">https://www.npmjs.com/get-npm</a>.</p>
-<h2 id="simple-node-project">Simple Node Project</h2>
-<p>Once you have VS Code and Node installed, create a new folder in your file manager and then open it with VS Code. You should then add a single <code>index.js</code> file to the project folder and add the following code to the file:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;http&apos;</span>);
-
-<span class="hljs-keyword">const</span> hostname = <span class="hljs-string">&apos;127.0.0.1&apos;</span>;
-<span class="hljs-keyword">const</span> port = <span class="hljs-number">3000</span>;
-
-<span class="hljs-keyword">const</span> server = http.createServer((req, res) =&gt; {
-  res.statusCode = <span class="hljs-number">200</span>;
-  res.setHeader(<span class="hljs-string">&apos;Content-Type&apos;</span>, <span class="hljs-string">&apos;text/plain&apos;</span>);
-  res.end(<span class="hljs-string">&apos;Hello World&apos;</span>);
-});
-
-server.listen(port, hostname, () =&gt; {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server running at http://<span class="hljs-subst">${hostname}</span>:<span class="hljs-subst">${port}</span>/`</span>);
-});
-</code></pre>
-<p>Then, in your terminal execute <code>node index.js</code> from your project&apos;s directory to run this simple node app. You should see a message saying <code>&quot;Server running at http://127.0.0.1:3000/&quot;</code> in you terminal. Then, once you navigate to <a href="http://127.0.0.1:3000/" target="_blank">http://127.0.0.1:3000/</a> in your browser, you should see a page that just displays the text &quot;Hello World&quot;.</p>
-<h2 id="initialize-your-project-as-an-npm-package">Initialize Your Project as an npm Package</h2>
-<p>If you&apos;d like to use other npm packages in your project (or if you&apos;d like to be able to import your project into other projects), you will need to initialize your project as an npm package.</p>
-<p>The process is simple, just run this command in your project&apos;s root directory:</p>
-<pre><code class="lang-bash">npm init
-</code></pre>
-<p>This will present a dialog with different fields for you to specify values for, with any default value shown in parenthesis (e.g. <code>package name: (dnd-party-manager)</code>). You need to enter a value (or not if you want to accept the default value) and then press <kbd>Enter</kbd>.</p>
-<p>Here&apos;s an example of the filled-out dialog:</p>
-<pre><code class="lang-bash">$ npm init
+server<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>port<span class="token punctuation">,</span> hostname<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Server running at http://</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>hostname<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>Then, in your terminal execute <code>node index.js</code> from your project's directory to run this simple node app. You should see a message saying <code>&quot;Server running at http://127.0.0.1:3000/&quot;</code> in you terminal. Then, once you navigate to <a href="http://127.0.0.1:3000/" target="_blank" rel="noopener noreferrer">http://127.0.0.1:3000/<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> in your browser, you should see a page that just displays the text &quot;Hello World&quot;.</p> <h2 id="initialize-your-project-as-an-npm-package"><a href="#initialize-your-project-as-an-npm-package" class="header-anchor">#</a> Initialize Your Project as an npm Package</h2> <p>If you'd like to use other npm packages in your project (or if you'd like to be able to import your project into other projects), you will need to initialize your project as an npm package.</p> <p>The process is simple, just run this command in your project's root directory:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">npm</span> init
+</code></pre></div><p>This will present a dialog with different fields for you to specify values for, with any default value shown in parenthesis (e.g. <code>package name: (dnd-party-manager)</code>). You need to enter a value (or not if you want to accept the default value) and then press <kbd>Enter</kbd>.</p> <p>Here's an example of the filled-out dialog:</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">npm</span> init
 This utility will walk you through creating a package.json file.
-It only covers the most common items, and tries to guess sensible defaults.
+It only covers the <span class="token function">most</span> common items, and tries to guess sensible defaults.
 
-See `npm <span class="hljs-built_in">help</span> json` <span class="hljs-keyword">for</span> definitive documentation on these fields
+See <span class="token variable"><span class="token variable">`</span><span class="token function">npm</span> <span class="token builtin class-name">help</span> json<span class="token variable">`</span></span> <span class="token keyword">for</span> definitive documentation on these fields
 and exactly what they do.
 
-Use `npm install &lt;pkg&gt;` afterwards to install a package and
-save it as a dependency <span class="hljs-keyword">in</span> the package.json file.
+Use <span class="token variable"><span class="token variable">`</span><span class="token function">npm</span> <span class="token function">install</span> <span class="token operator">&lt;</span>pkg<span class="token operator">&gt;</span><span class="token variable">`</span></span> afterwards to <span class="token function">install</span> a package and
+save it as a dependency <span class="token keyword">in</span> the package.json file.
 
-Press ^C at any time to quit.
-package name: (dnd-party-manager)
-version: (1.0.0) 0.0.1
-description: a party manager <span class="hljs-keyword">for</span> DnD Beyond
-entry point: (index.js)
-<span class="hljs-built_in">test</span> <span class="hljs-built_in">command</span>: jest
-git repository: (https://github.com/mcmillenb/dnd-party-manager.git)
+Press ^C at any <span class="token function">time</span> to quit.
+package name: <span class="token punctuation">(</span>dnd-party-manager<span class="token punctuation">)</span>
+version: <span class="token punctuation">(</span><span class="token number">1.0</span>.0<span class="token punctuation">)</span> <span class="token number">0.0</span>.1
+description: a party manager <span class="token keyword">for</span> DnD Beyond
+entry point: <span class="token punctuation">(</span>index.js<span class="token punctuation">)</span>
+<span class="token builtin class-name">test</span> command: jest
+<span class="token function">git</span> repository: <span class="token punctuation">(</span>https://github.com/mcmillenb/dnd-party-manager.git<span class="token punctuation">)</span>
 keywords: dnd manager
 author: Brian McMillen
-license: (ISC)
-About to write to /Users/brianmcmillen/projects/dnd-party-manager/package.json:
+license: <span class="token punctuation">(</span>ISC<span class="token punctuation">)</span>
+About to <span class="token function">write</span> to /Users/brianmcmillen/projects/dnd-party-manager/package.json:
 
-{
-  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;dnd-party-manager&quot;</span>,
-  <span class="hljs-string">&quot;version&quot;</span>: <span class="hljs-string">&quot;0.0.1&quot;</span>,
-  <span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;a party manager for DnD Beyond&quot;</span>,
-  <span class="hljs-string">&quot;main&quot;</span>: <span class="hljs-string">&quot;index.js&quot;</span>,
-  <span class="hljs-string">&quot;scripts&quot;</span>: {
-    <span class="hljs-string">&quot;test&quot;</span>: <span class="hljs-string">&quot;jest&quot;</span>
-  },
-  <span class="hljs-string">&quot;repository&quot;</span>: {
-    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;git&quot;</span>,
-    <span class="hljs-string">&quot;url&quot;</span>: <span class="hljs-string">&quot;git+https://github.com/mcmillenb/dnd-party-manager.git&quot;</span>
-  },
-  <span class="hljs-string">&quot;keywords&quot;</span>: [
-    <span class="hljs-string">&quot;dnd&quot;</span>,
-    <span class="hljs-string">&quot;manager&quot;</span>
-  ],
-  <span class="hljs-string">&quot;author&quot;</span>: <span class="hljs-string">&quot;Brian McMillen&quot;</span>,
-  <span class="hljs-string">&quot;license&quot;</span>: <span class="hljs-string">&quot;ISC&quot;</span>,
-  <span class="hljs-string">&quot;bugs&quot;</span>: {
-    <span class="hljs-string">&quot;url&quot;</span>: <span class="hljs-string">&quot;https://github.com/mcmillenb/dnd-party-manager/issues&quot;</span>
-  },
-  <span class="hljs-string">&quot;homepage&quot;</span>: <span class="hljs-string">&quot;https://github.com/mcmillenb/dnd-party-manager#readme&quot;</span>
-}
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;name&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;dnd-party-manager&quot;</span>,
+  <span class="token string">&quot;version&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;0.0.1&quot;</span>,
+  <span class="token string">&quot;description&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;a party manager for DnD Beyond&quot;</span>,
+  <span class="token string">&quot;main&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;index.js&quot;</span>,
+  <span class="token string">&quot;scripts&quot;</span><span class="token builtin class-name">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;test&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;jest&quot;</span>
+  <span class="token punctuation">}</span>,
+  <span class="token string">&quot;repository&quot;</span><span class="token builtin class-name">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;type&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;git&quot;</span>,
+    <span class="token string">&quot;url&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;git+https://github.com/mcmillenb/dnd-party-manager.git&quot;</span>
+  <span class="token punctuation">}</span>,
+  <span class="token string">&quot;keywords&quot;</span><span class="token builtin class-name">:</span> <span class="token punctuation">[</span>
+    <span class="token string">&quot;dnd&quot;</span>,
+    <span class="token string">&quot;manager&quot;</span>
+  <span class="token punctuation">]</span>,
+  <span class="token string">&quot;author&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;Brian McMillen&quot;</span>,
+  <span class="token string">&quot;license&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;ISC&quot;</span>,
+  <span class="token string">&quot;bugs&quot;</span><span class="token builtin class-name">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;url&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;https://github.com/mcmillenb/dnd-party-manager/issues&quot;</span>
+  <span class="token punctuation">}</span>,
+  <span class="token string">&quot;homepage&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;https://github.com/mcmillenb/dnd-party-manager#readme&quot;</span>
+<span class="token punctuation">}</span>
 
 
-Is this OK? (yes)
-</code></pre>
-
-                                
-                                </section>
-                            
-    </div>
-    <div class="search-results">
-        <div class="has-results">
-            
-            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
-            <ul class="search-results-list"></ul>
-            
-        </div>
-        <div class="no-results">
-            
-            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
-            
-        </div>
-    </div>
-</div>
-
-                        </div>
-                    </div>
-                
-            </div>
-
-            
-                
-                <a href="dnd-party-app.html" class="navigation navigation-prev " aria-label="Previous page: DnD Party Management App">
-                    <i class="fa fa-angle-left"></i>
-                </a>
-                
-                
-                <a href="push-to-github.html" class="navigation navigation-next " aria-label="Next page: Push a Project to GitHub">
-                    <i class="fa fa-angle-right"></i>
-                </a>
-                
-            
-        
-    </div>
-
-    <script>
-        var gitbook = gitbook || [];
-        gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"next":{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]},"previous":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/node-project.md","mtime":"2020-04-20T03:37:53.990Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-20T03:38:39.313Z"},"basePath":"..","book":{"language":""}});
-        });
-    </script>
-</div>
-
-        
-    <script src="../gitbook/gitbook.js"></script>
-    <script src="../gitbook/theme.js"></script>
-    
-        
-        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
-        
-    
-
-    </body>
+Is this OK? <span class="token punctuation">(</span>yes<span class="token punctuation">)</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.8e89f879.js" defer></script><script src="/assets/js/2.9e75d588.js" defer></script><script src="/assets/js/9.aa66524e.js" defer></script>
+  </body>
 </html>
-

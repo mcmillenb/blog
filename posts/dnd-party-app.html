@@ -1,570 +1,188 @@
-
-<!DOCTYPE HTML>
-<html lang="" >
-    <head>
-        <meta charset="UTF-8">
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>DnD Party Management App · GitBook</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.3">
-        
-        
-        
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>DnD Party Management App</title>
+    <meta name="generator" content="VuePress 1.4.1">
     
-    <link rel="stylesheet" href="../gitbook/style.css">
+    <meta name="description" content="">
+    <link rel="preload" href="/assets/css/0.styles.e23ba8da.css" as="style"><link rel="preload" href="/assets/js/app.8e89f879.js" as="script"><link rel="preload" href="/assets/js/2.9e75d588.js" as="script"><link rel="preload" href="/assets/js/5.f887cf79.js" as="script"><link rel="prefetch" href="/assets/js/10.d2988108.js"><link rel="prefetch" href="/assets/js/11.e385aa8e.js"><link rel="prefetch" href="/assets/js/12.a77c7d53.js"><link rel="prefetch" href="/assets/js/3.8e5e27b2.js"><link rel="prefetch" href="/assets/js/4.521a026b.js"><link rel="prefetch" href="/assets/js/6.28ab411b.js"><link rel="prefetch" href="/assets/js/7.8d57acfa.js"><link rel="prefetch" href="/assets/js/8.ba94abaf.js"><link rel="prefetch" href="/assets/js/9.aa66524e.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e23ba8da.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="dnd-party-management-app"><a href="#dnd-party-management-app" class="header-anchor">#</a> DnD Party Management App</h1> <p>I've started running a DnD campaign with college friends during The Quarantine. We're using <a href="https://dndbeyond.com" target="_blank" rel="noopener noreferrer">DnD Beyond<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> for character creation and management. We're seven people total, and I'm finding that I need to have everyone's character sheet up on DnD beyond so that I can get a quick glimpse at who has the highest Natural Perception, or which party member between two has the highest Dexterity, etc. Currently, DnD Beyond does have a succinct view of the party's data, and I'd like to build one. I'm going to be writing this post as I go through the process of making an app for summarizing party data using the data stored in DnD Beyond.</p> <h2 id="getting-the-data"><a href="#getting-the-data" class="header-anchor">#</a> Getting the data</h2> <h3 id="make-a-character-in-dnd-beyond"><a href="#make-a-character-in-dnd-beyond" class="header-anchor">#</a> Make a character in DnD Beyond</h3> <p>First thing's first: I need to see how I can gather the data from DnD Beyond. If you haven't used DnD Beyond before, they make it pretty easy to set up a character. Just follow these steps:</p> <ol><li><a href="https://www.dndbeyond.com/create-account" target="_blank" rel="noopener noreferrer">Create a DnD Beyond Account<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>, or <a href="https://www.dndbeyond.com/sign-in" target="_blank" rel="noopener noreferrer">sign in<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> if you already have an account.</li> <li>Go through the <a href="https://www.dndbeyond.com/characters/builder#/" target="_blank" rel="noopener noreferrer">Character Builder<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>. For this walkthrough, it doesn't matter what kind of character you create. Just choose whatever you want.</li> <li>Once you've create your character, you should be able to view the character's page, which should have a url similar to this: <a href="https://www.dndbeyond.com/profile/myprofilename/characters/26681628" target="_blank" rel="noopener noreferrer">https://www.dndbeyond.com/profile/myprofilename/characters/26681628<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li> <li>If you've already got characters, or if you can't figure out how to view your character, you can find all of your characters here: <a href="https://www.dndbeyond.com/my-characters" target="_blank" rel="noopener noreferrer">https://www.dndbeyond.com/my-characters<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ol> <h3 id="decide-how-to-retrieve-the-data"><a href="#decide-how-to-retrieve-the-data" class="header-anchor">#</a> Decide how to retrieve the data</h3> <p>Now that we have a character created, let's see how to get that data from DnD Beyond. First thought is that there might be a development api for DnD Beyond... Hmm, looks like <a href="https://www.dndbeyond.com/forums/d-d-beyond-general/bugs-support/32487-d-d-beyond-api" target="_blank" rel="noopener noreferrer">they are planning on it<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> but it's not available yet.</p> <p>Okay, so we'll need to get creative. Let's see if we can scrape the pages for data. I like JavaScript, so I'll look for ways to do it in Node. <a href="https://nodejs.dev/making-http-requests-with-nodejs" target="_blank" rel="noopener noreferrer">Looks like node has a built-in way to make http requests.<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> That's good, so I'll <a href="/posts/node-project.html">start a node project in VS Code</a> and then <a href="/posts/push-to-github.html">push that project up to GitHub</a>.</p> <p>I've created <a href="https://github.com/mcmillenb/dnd-party-manager" target="_blank" rel="noopener noreferrer">this repo for the project<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>. I'll link to the different versions of the project as we go along. The very initial state of the project is <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.1" target="_blank" rel="noopener noreferrer"><code>v0.0.1</code><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>, if you want to check it out.</p> <h3 id="set-up-a-node-project"><a href="#set-up-a-node-project" class="header-anchor">#</a> Set up a node project</h3> <p>First, let's add a couple scripts in the <code>package.json</code> file:</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+  <span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;test&quot;</span><span class="token operator">:</span> <span class="token string">&quot;jest&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;serve&quot;</span><span class="token operator">:</span> <span class="token string">&quot;node src/index.js&quot;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>We've added simple scripts that will now run via <code>npm run test</code> and <code>npm run serve</code>.</p> <p>The <code>test</code> script is simply running the <code>jest</code> command. So we'll need to add the <code>jest</code> npm package as a dependency. You can do that like so:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">npm</span> i -D jest
+</code></pre></div><p>In the above command, <code>i</code> is equivalent to <code>install</code> and the <code>-D</code> flag specifies the package as a dev dependency, meaning that the package isn't needed for our package to run, but just for development purposes (testing in our case).</p> <p>The <code>serve</code> script is telling <code>node</code> to process and execute the <code>src/index.js</code> file. You should already have <code>node</code> installed (if you don't, go to <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">https://nodejs.org<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> and download it).</p> <p>Let's add code for a simple node server in the <code>src/index.js</code> file:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// src/index.js</span>
+<span class="token keyword">const</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    
-            
-                
-                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
-                
-            
-                
-                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
-                
-            
-                
-                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
-                
-            
-        
+<span class="token keyword">const</span> hostname <span class="token operator">=</span> <span class="token string">'127.0.0.1'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> port <span class="token operator">=</span> <span class="token number">3000</span><span class="token punctuation">;</span>
 
-    
+<span class="token keyword">const</span> server <span class="token operator">=</span> http<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span>statusCode <span class="token operator">=</span> <span class="token number">200</span><span class="token punctuation">;</span>
+  res<span class="token punctuation">.</span><span class="token function">setHeader</span><span class="token punctuation">(</span><span class="token string">'Content-Type'</span><span class="token punctuation">,</span> <span class="token string">'text/plain'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'Hello World'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
+server<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>port<span class="token punctuation">,</span> hostname<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Server running at http://</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>hostname<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>Now, from your project's root directory, run <code>npm run serve</code> to make sure that node can serve the app as expected. You should see a <code>&quot;Server running at http://127.0.0.1:3000&quot;</code> message and visiting <a href="http://127.0.0.1:3000" target="_blank" rel="noopener noreferrer">http://127.0.0.1:3000<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> should load with a &quot;Hello World&quot; message in the browser.</p> <p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.2" target="_blank" rel="noopener noreferrer">view <code>v0.0.2</code> here<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>.</p> <h3 id="parse-data-from-dnd-beyond-character-page"><a href="#parse-data-from-dnd-beyond-character-page" class="header-anchor">#</a> Parse data from DnD Beyond character page</h3> <p>So now we have a basic node app that we can run via <code>npm run serve</code>. Let's start trying to get our DnD character's data in our app.</p> <p>Our app is using the built-in <code>http</code> library to create a server. <a href="https://nodejs.org/api/http.html" target="_blank" rel="noopener noreferrer">Looking at the docs<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>, it seems like we can also use this library to make requests via <a href="https://nodejs.org/api/http.html#http_http_request_url_options_callback" target="_blank" rel="noopener noreferrer">the <code>http.request</code> method<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>.</p> <p>Following the example for the <code>http.request</code> method in the docs, let's add these few lines of code to the bottom of our <code>index.js</code> file, using the url for our DnD character:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// src/index.js</span>
+<span class="token comment">// ...</span>
+<span class="token keyword">const</span> characterUrl <span class="token operator">=</span> <span class="token string">'https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> req <span class="token operator">=</span> http<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span>characterUrl<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">resp</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  resp<span class="token punctuation">.</span><span class="token function">setEncoding</span><span class="token punctuation">(</span><span class="token string">'utf8'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  resp<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'data'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">BODY: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  resp<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'end'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'No more data in response.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+req<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>Hmm, if we try running this via <code>npm run serve</code>, we get an error saying:</p> <blockquote><p>Protocol &quot;https:&quot; not supported. Expected &quot;http:&quot;</p></blockquote> <p>And if we change the <code>https:</code> to <code>http:</code> we just get this message:</p> <blockquote><p>No more data in response.</p></blockquote> <p>Seems like we might not be able to roll our own HTTP client as easily as I'd thought. No worries, other people have certainly hit this problem before. They've even created their own free npm packages that we can use in our project to abstract away whatever issue we're running into.</p> <p>Let's try using <a href="https://github.com/axios/axios" target="_blank" rel="noopener noreferrer">the <code>axios</code> package<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> as our HTTP Client instead. It's a js library specifically designed for it.</p> <p>First, we'll need to install it as a dependency in our project:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">npm</span> i -S axios
+</code></pre></div><p>This time, we've used the <code>-S</code> flag, which installs the package as a regular dependency, meaning that we're depending on it to actually run the app.</p> <p>After <code>axios</code> has been installed, we can use it in our <code>index.js</code> file. First, <code>require</code> it as a variable at the top of our file:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// src/index.js</span>
+<span class="token keyword">const</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> axios <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'axios'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ...</span>
+</code></pre></div><p>Remove the <code>const characterUrl = ...</code> line and everything after. Replace it with the following lines of code:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// src/index.js</span>
+<span class="token comment">// ...</span>
+<span class="token function">axios</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  url<span class="token operator">:</span> <span class="token string">'https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114'</span><span class="token punctuation">,</span>
+  method<span class="token operator">:</span> <span class="token string">'get'</span><span class="token punctuation">,</span>
+  withCredentials<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  headers<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string">'Cache-Control'</span><span class="token operator">:</span> <span class="token string">'no-cache'</span><span class="token punctuation">,</span>
+    <span class="token string">'Cookies'</span><span class="token operator">:</span> <span class="token string">'foo=bar'</span><span class="token punctuation">,</span>
+    <span class="token string">'User-Agent'</span><span class="token operator">:</span> <span class="token string">'dnd-party-manager'</span><span class="token punctuation">,</span>
+    <span class="token string">'Accept'</span><span class="token operator">:</span> <span class="token string">'*/*'</span><span class="token punctuation">,</span>
+    <span class="token string">'Accept-Encoding'</span><span class="token operator">:</span> <span class="token string">'gzip, deflate, br'</span><span class="token punctuation">,</span>
+    <span class="token string">'Connection'</span><span class="token operator">:</span> <span class="token string">'keep-alive'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resp</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Data: '</span><span class="token punctuation">,</span> resp<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>This <code>axios</code> call handles everything for us and now we're able to log the full page data for the requested url.</p> <p>So, now we've gotten the html data, but we're also going to need to parse it so that we can organize it into a useful structure.</p> <p>Let's google &quot;node html parser&quot; to see what comes up: Ah, a <a href="https://github.com/cheeriojs/cheerio" target="_blank" rel="noopener noreferrer">package named <code>cheerio</code> seems useful<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>. But let's compare it to other similar packages on <a href="https://npmtrends.com" target="_blank" rel="noopener noreferrer">npmtrends.com<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>. First, I'll search for <a href="https://www.npmtrends.com/cheerio" target="_blank" rel="noopener noreferrer">cherrio<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>, and yep it seems popular enough, but let's now <a href="https://www.npmtrends.com/cheerio-vs-htmlparser2-vs-jsdom-vs-parse5-vs-scraper" target="_blank" rel="noopener noreferrer">compare it using a few of the suggested similar packages<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>. Okay wow <a href="https://github.com/inikulin/parse5" target="_blank" rel="noopener noreferrer">the <code>parse5</code> library<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> has a lot of downloads. Hmm, but it doesn't have as many stars on GitHub, so it's maybe not as intuitive to use. Well, I'm going to bet on <code>cheerio</code> since it's README on GitHub was more inviting and it does have the most stars.</p> <p>Okay! So let's install <code>cheerio</code> into our project:</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">npm</span> i -S cheerio
+</code></pre></div><p>Once it's installed, let's <code>require</code> it in the top of our <code>index.js</code> file:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// src/index.js</span>
+<span class="token keyword">const</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> axios <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'axios'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> cheerio <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'cheerio'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ...</span>
+</code></pre></div><p>And now let's use it to parse the html we receive in the <code>axios</code> response callback:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// src/index.js</span>
+<span class="token comment">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resp</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> $ <span class="token operator">=</span> cheerio<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Title'</span><span class="token punctuation">,</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'h1.page-title'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+<span class="token comment">// ...</span>
+</code></pre></div><p>Now we're getting somewhere. Now, if we run <code>npm run serve</code>, our app should make a request to our character's page, parse the response html, and then print out our character's title like so: <code>&quot;Title: Rikstiivs&quot;</code> (my DnD character's name is Rikstiivs).</p> <p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.3" target="_blank" rel="noopener noreferrer">view <code>v0.0.3</code> here<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>.</p> <h2 id="display-the-data"><a href="#display-the-data" class="header-anchor">#</a> Display the data</h2> <p>So now we have a server, and we're able to fetch and parse the data for our DnD Beyond character. But we only see that data in the terminal. We need to figure out some way to display the data in the server's response so that we get the formatted info we want when we load our app.</p> <p>The easiest thing to do will be to just take out that <code>const server = ...</code> and <code>server.listen(...)</code> code and jam it into the axios response callback, like so:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// src/index.js</span>
+<span class="token comment">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resp</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> $ <span class="token operator">=</span> cheerio<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> title <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'h1.page-title'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        
-    
-    
-    <meta name="HandheldFriendly" content="true"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
-    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+  <span class="token keyword">const</span> server <span class="token operator">=</span> http<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span>statusCode <span class="token operator">=</span> <span class="token number">200</span><span class="token punctuation">;</span>
+    res<span class="token punctuation">.</span><span class="token function">setHeader</span><span class="token punctuation">(</span><span class="token string">'Content-Type'</span><span class="token punctuation">,</span> <span class="token string">'text/plain'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Title: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    
-    <link rel="next" href="node-project.html" />
-    
-    
-    <link rel="prev" href="./" />
-    
+  server<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>port<span class="token punctuation">,</span> hostname<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Server running at http://</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>hostname<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+<span class="token comment">// ...</span>
+</code></pre></div><p>Now, when we run <code>npm run serve</code> and then navigate to <a href="http://127.0.0.1:3000" target="_blank" rel="noopener noreferrer">http://127.0.0.1:3000<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>, we should see &quot;Title: [Your Character's Name]&quot; displayed.</p> <p>We'll almost certainly need to take this code back out and handle the data fetching and serving in a more flexible way. But for now it works!</p> <p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.4" target="_blank" rel="noopener noreferrer">view <code>v0.0.4</code> here<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>.</p> <h2 id="wait-where-s-the-rest-of-the-data"><a href="#wait-where-s-the-rest-of-the-data" class="header-anchor">#</a> Wait where's the rest of the data?</h2> <p>So, here's the thing: what it looks like is happening is that we aren't getting the fully loaded page with the <code>axios</code> call. A lot of webpages will initially only load basic html and then use JavaScript to add the rest of the functionality or content. Seems like the page for the DnD Beyond character sheet is doing just that. We are able to get the character's name, but if we look through the rest of the html, we're only getting the header content before seeing a bunch of <code>&lt;script&gt;</code> tags which are assumably being used to then load the rest of the page's content.</p> <p>So what does that mean? Well, <code>axios</code> probably won't work for getting the data from the DnD Beyond page after all. So, let's get rid of it and try out another library that might get the job done: <code>puppeteer</code>. I've heard of this library before, and know that it functions closer to a web browser and should be able to load the content of a page after it's fully loaded.</p> <p>So first let's remove the <code>const axios = require('axios')</code> statement at the top of the file and replace it with `</p> <p>Okay so first let's install <code>puppeteer</code> and uninstall <code>axios</code> (using the <code>un</code> command instead of <code>i</code>):</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">npm</span> i -S puppeteer
+<span class="token function">npm</span> un -S axios
+</code></pre></div><p>Now let's <code>require</code> it instead of <code>axios</code> in the top of our <code>index.js</code> file:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// src/index.js</span>
+<span class="token keyword">const</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> puppeteer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'puppeteer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> cheerio <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'cheerio'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ...</span>
+</code></pre></div><p>Now let's write our own function, using the <code>puppeteer</code> library, to get the html of any given page:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">getHtml</span><span class="token punctuation">(</span><span class="token parameter">url</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> browser <span class="token operator">=</span> <span class="token keyword">await</span> puppeteer<span class="token punctuation">.</span><span class="token function">launch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> headless<span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> page <span class="token operator">=</span> <span class="token keyword">await</span> browser<span class="token punctuation">.</span><span class="token function">newPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">await</span> page<span class="token punctuation">.</span><span class="token function">goto</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> <span class="token punctuation">{</span> waitUntil<span class="token operator">:</span> <span class="token string">'networkidle2'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> html <span class="token operator">=</span> <span class="token keyword">await</span> page<span class="token punctuation">.</span><span class="token function">content</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">await</span> browser<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> html<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>The <code>puppeteer</code> library comes installed with <a href="https://www.chromium.org/" target="_blank" rel="noopener noreferrer">Chromium<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>, which is an open-source browser that Google Chrome is based off of. So, in the first line of the <code>getHtml</code> function, we are actually launching a browser that we'll be able to load webpages with. The second line is telling the browser to open a new page and the third line is telling the page to go to the <code>url</code> that gets passed in as the parameter of the function. The <code>{ waitUntil: 'networkidle2' }</code> config object is telling the page to wait until the page has completely loaded before resolving and allowing our function to continue. The next line gets the <code>html</code> content from the page, and the line after that closes the browser. Finally, our function returns the <code>html</code> that was retrieved from the page.</p> <p>We can add that function to the top of the page and then we can replace the entire <code>axios</code> call with simply <code>getHtml(characterUrl)</code>.</p> <p>Since we're returning the <code>html</code> just like the <code>axios</code> call was, we can keep the <code>then</code> handler and just tweak the param being passed to it:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// ...</span>
+<span class="token function">getHtml</span><span class="token punctuation">(</span>characterUrl<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">html</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> $ <span class="token operator">=</span> cheerio<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>At this point we should be able to run the <code>npm run serve</code> command and see the same results as when we used <code>axios</code> in the previous section.</p> <p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.5" target="_blank" rel="noopener noreferrer">view <code>v0.0.5</code> here<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>.</p> <h2 id="parsing-some-useful-data"><a href="#parsing-some-useful-data" class="header-anchor">#</a> Parsing some useful data</h2> <p>In the last section we switched tactics to use the <code>puppeteer</code> library to render the content of the DnD Beyond webpage and read it in our app. So, now let's explore that content to parse out some useful stats from our DnD character.</p> <p>Let's first go to the actual page that we are trying to parse information out of. For example, <a href="https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114'" target="_blank" rel="noopener noreferrer">here in the character sheet<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> for my character named Rikstiivs. On that page we can right-click a stat that we're interested in and choose the &quot;Inspect&quot; option from the menu that pops up. The dev tools will open up and we'll be able to see where in the html the stat is located and what css classes it has. This will be helpful for accessing it with the <code>cheerio</code> library.</p> <p>Here's what my character sheet looked like at the time of writing this:</p> <p><img src="/assets/img/DnD_character_sheet.8683a3b8.png" alt="DnD Beyond Character Sheet"></p> <p>As an example, we can right-click on the Strength stat at the top-left corner of the character sheet and &quot;Inspect&quot; it (the 23, not the +6 modifier value). It looks like the element displaying the 23 has a <code>ct-ability-summary__secondary</code> class, and so do the other elements displaying these six main stats. So, in our code, let's try to access that value using a css selector in the <code>cheerio</code> instance we've already created:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// ...</span>
+<span class="token keyword">const</span> title <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'h1.page-title'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> stat <span class="token operator">=</span> <span class="token string">'.ct-ability-summary__secondary'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> strength <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span>stat<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    </head>
-    <body>
-        
-<div class="book">
-    <div class="book-summary">
-        
-            
-<div id="book-search-input" role="search">
-    <input type="text" placeholder="Type to search" />
-</div>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">{</span> strength <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ...</span>
+</code></pre></div><p>The above code should print <code>{ strength: '26' }</code> to the console when we run <code>npm run serve</code>.</p> <p>We can now use the same logic to get the values for each of the six main stats and then render those values in the server's response. The entire <code>then</code> callback will then look something like this:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// ...</span>
+<span class="token function">getHtml</span><span class="token punctuation">(</span>characterUrl<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">html</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> $ <span class="token operator">=</span> cheerio<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> title <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'h1.page-title'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> stats <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.ct-ability-summary__secondary'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> str <span class="token operator">=</span> stats<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> dex <span class="token operator">=</span> stats<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> con <span class="token operator">=</span> stats<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> int <span class="token operator">=</span> stats<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> wis <span class="token operator">=</span> stats<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> cha <span class="token operator">=</span> stats<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-            
-                <nav role="navigation">
-                
+  <span class="token keyword">const</span> server <span class="token operator">=</span> http<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span>statusCode <span class="token operator">=</span> <span class="token number">200</span><span class="token punctuation">;</span>
+    res<span class="token punctuation">.</span><span class="token function">setHeader</span><span class="token punctuation">(</span><span class="token string">'Content-Type'</span><span class="token punctuation">,</span> <span class="token string">'text/plain'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+      Title: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+      STR </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>str<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+      DEX </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>dex<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+      CON </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>con<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+      INT </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>int<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+      WIS </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>wis<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+      CHA </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>cha<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+    </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-
-<ul class="summary">
-    
-    
-
-    
-
-    
-        
-        
-    
-        <li class="chapter " data-level="1.1" data-path="../">
-            
-                <a href="../">
-            
-                    
-                    Blog
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.2" data-path="./">
-            
-                <a href="./">
-            
-                    
-                    Posts
-            
-                </a>
-            
-
-            
-            <ul class="articles">
-                
-    
-        <li class="chapter active" data-level="1.2.1" data-path="dnd-party-app.html">
-            
-                <a href="dnd-party-app.html">
-            
-                    
-                    DnD Party Management App
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.2.2" data-path="node-project.html">
-            
-                <a href="node-project.html">
-            
-                    
-                    Node Project in VS Code
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.2.3" data-path="push-to-github.html">
-            
-                <a href="push-to-github.html">
-            
-                    
-                    Push a Project to GitHub
-            
-                </a>
-            
-
-            
-        </li>
-    
-
-            </ul>
-            
-        </li>
-    
-        <li class="chapter " data-level="1.3" data-path="../thoughts/">
-            
-                <a href="../thoughts/">
-            
-                    
-                    Thoughts
-            
-                </a>
-            
-
-            
-            <ul class="articles">
-                
-    
-        <li class="chapter " data-level="1.3.1" data-path="../thoughts/project-ideas.html">
-            
-                <a href="../thoughts/project-ideas.html">
-            
-                    
-                    Project Ideas
-            
-                </a>
-            
-
-            
-        </li>
-    
-
-            </ul>
-            
-        </li>
-    
-
-    
-
-    <li class="divider"></li>
-
-    <li>
-        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Published with GitBook
-        </a>
-    </li>
-</ul>
-
-
-                </nav>
-            
-        
-    </div>
-
-    <div class="book-body">
-        
-            <div class="body-inner">
-                
-                    
-
-<div class="book-header" role="navigation">
-    
-
-    <!-- Title -->
-    <h1>
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >DnD Party Management App</a>
-    </h1>
-</div>
-
-
-
-
-                    <div class="page-wrapper" tabindex="-1" role="main">
-                        <div class="page-inner">
-                            
-<div id="book-search-results">
-    <div class="search-noresults">
-    
-                                <section class="normal markdown-section">
-                                
-                                <h1 id="dnd-party-management-app">DnD Party Management App</h1>
-<p>I&apos;ve started running a DnD campaign with college friends during The Quarantine. We&apos;re using <a href="https://dndbeyond.com" target="_blank">DnD Beyond</a> for character creation and management. We&apos;re seven people total, and I&apos;m finding that I need to have everyone&apos;s character sheet up on DnD beyond so that I can get a quick glimpse at who has the highest Natural Perception, or which party member between two has the highest Dexterity, etc. Currently, DnD Beyond does have a succinct view of the party&apos;s data, and I&apos;d like to build one. I&apos;m going to be writing this post as I go through the process of making an app for summarizing party data using the data stored in DnD Beyond.</p>
-<h2 id="getting-the-data">Getting the data</h2>
-<h3 id="make-a-character-in-dnd-beyond">Make a character in DnD Beyond</h3>
-<p>First thing&apos;s first: I need to see how I can gather the data from DnD Beyond. If you haven&apos;t used DnD Beyond before, they make it pretty easy to set up a character. Just follow these steps:</p>
-<ol>
-<li><a href="https://www.dndbeyond.com/create-account" target="_blank">Create a DnD Beyond Account</a>, or <a href="https://www.dndbeyond.com/sign-in" target="_blank">sign in</a> if you already have an account.</li>
-<li>Go through the <a href="https://www.dndbeyond.com/characters/builder#/" target="_blank">Character Builder</a>. For this walkthrough, it doesn&apos;t matter what kind of character you create. Just choose whatever you want.</li>
-<li>Once you&apos;ve create your character, you should be able to view the character&apos;s page, which should have a url similar to this: <a href="https://www.dndbeyond.com/profile/myprofilename/characters/26681628" target="_blank">https://www.dndbeyond.com/profile/myprofilename/characters/26681628</a></li>
-<li>If you&apos;ve already got characters, or if you can&apos;t figure out how to view your character, you can find all of your characters here: <a href="https://www.dndbeyond.com/my-characters" target="_blank">https://www.dndbeyond.com/my-characters</a></li>
-</ol>
-<h3 id="decide-how-to-retrieve-the-data">Decide how to retrieve the data</h3>
-<p>Now that we have a character created, let&apos;s see how to get that data from DnD Beyond. First thought is that there might be a development api for DnD Beyond... Hmm, looks like <a href="https://www.dndbeyond.com/forums/d-d-beyond-general/bugs-support/32487-d-d-beyond-api" target="_blank">they are planning on it</a> but it&apos;s not available yet.</p>
-<p>Okay, so we&apos;ll need to get creative. Let&apos;s see if we can scrape the pages for data. I like JavaScript, so I&apos;ll look for ways to do it in Node. <a href="https://nodejs.dev/making-http-requests-with-nodejs" target="_blank">Looks like node has a built-in way to make http requests.</a> That&apos;s good, so I&apos;ll <a href="node-project.html">start a node project in VS Code</a> and then <a href="push-to-github.html">push that project up to GitHub</a>.</p>
-<p>I&apos;ve created <a href="https://github.com/mcmillenb/dnd-party-manager" target="_blank">this repo for the project</a>. I&apos;ll link to the different versions of the project as we go along. The very initial state of the project is <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.1" target="_blank"><code>v0.0.1</code></a>, if you want to check it out.</p>
-<h3 id="set-up-a-node-project">Set up a node project</h3>
-<p>First, let&apos;s add a couple scripts in the <code>package.json</code> file:</p>
-<pre><code class="lang-json">{
-  <span class="hljs-comment">// ...</span>
-  <span class="hljs-string">&quot;scripts&quot;</span>: {
-    <span class="hljs-string">&quot;test&quot;</span>: <span class="hljs-string">&quot;jest&quot;</span>,
-    <span class="hljs-string">&quot;serve&quot;</span>: <span class="hljs-string">&quot;node src/index.js&quot;</span>
-  }
-}
-</code></pre>
-<p>We&apos;ve added simple scripts that will now run via <code>npm run test</code> and <code>npm run serve</code>.</p>
-<p>The <code>test</code> script is simply running the <code>jest</code> command. So we&apos;ll need to add the <code>jest</code> npm package as a dependency. You can do that like so:</p>
-<pre><code class="lang-bash">npm i -D jest
-</code></pre>
-<p>In the above command, <code>i</code> is equivalent to <code>install</code> and the <code>-D</code> flag specifies the package as a dev dependency, meaning that the package isn&apos;t needed for our package to run, but just for development purposes (testing in our case).</p>
-<p>The <code>serve</code> script is telling <code>node</code> to process and execute the <code>src/index.js</code> file. You should already have <code>node</code> installed (if you don&apos;t, go to <a href="https://nodejs.org" target="_blank">https://nodejs.org</a> and download it).</p>
-<p>Let&apos;s add code for a simple node server in the <code>src/index.js</code> file:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
-<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;http&apos;</span>);
-
-<span class="hljs-keyword">const</span> hostname = <span class="hljs-string">&apos;127.0.0.1&apos;</span>;
-<span class="hljs-keyword">const</span> port = <span class="hljs-number">3000</span>;
-
-<span class="hljs-keyword">const</span> server = http.createServer((req, res) =&gt; {
-  res.statusCode = <span class="hljs-number">200</span>;
-  res.setHeader(<span class="hljs-string">&apos;Content-Type&apos;</span>, <span class="hljs-string">&apos;text/plain&apos;</span>);
-  res.end(<span class="hljs-string">&apos;Hello World&apos;</span>);
-});
-
-server.listen(port, hostname, () =&gt; {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server running at http://<span class="hljs-subst">${hostname}</span>:<span class="hljs-subst">${port}</span>/`</span>);
-});
-</code></pre>
-<p>Now, from your project&apos;s root directory, run <code>npm run serve</code> to make sure that node can serve the app as expected. You should see a <code>&quot;Server running at http://127.0.0.1:3000&quot;</code> message and visiting <a href="http://127.0.0.1:3000" target="_blank">http://127.0.0.1:3000</a> should load with a &quot;Hello World&quot; message in the browser.</p>
-<p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.2" target="_blank">view <code>v0.0.2</code> here</a>.</p>
-<h3 id="parse-data-from-dnd-beyond-character-page">Parse data from DnD Beyond character page</h3>
-<p>So now we have a basic node app that we can run via <code>npm run serve</code>. Let&apos;s start trying to get our DnD character&apos;s data in our app.</p>
-<p>Our app is using the built-in <code>http</code> library to create a server. <a href="https://nodejs.org/api/http.html" target="_blank">Looking at the docs</a>, it seems like we can also use this library to make requests via <a href="https://nodejs.org/api/http.html#http_http_request_url_options_callback" target="_blank">the <code>http.request</code> method</a>.</p>
-<p>Following the example for the <code>http.request</code> method in the docs, let&apos;s add these few lines of code to the bottom of our <code>index.js</code> file, using the url for our DnD character:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
-<span class="hljs-comment">// ...</span>
-<span class="hljs-keyword">const</span> characterUrl = <span class="hljs-string">&apos;https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114&apos;</span>;
-<span class="hljs-keyword">const</span> req = http.request(characterUrl, (resp) =&gt; {
-  resp.setEncoding(<span class="hljs-string">&apos;utf8&apos;</span>);
-  resp.on(<span class="hljs-string">&apos;data&apos;</span>, (data) =&gt; {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`BODY: <span class="hljs-subst">${data}</span>`</span>);
-  });
-  resp.on(<span class="hljs-string">&apos;end&apos;</span>, () =&gt; {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;No more data in response.&apos;</span>);
-  });
-});
-req.end();
-</code></pre>
-<p>Hmm, if we try running this via <code>npm run serve</code>, we get an error saying:</p>
-<blockquote>
-<p>Protocol &quot;https:&quot; not supported. Expected &quot;http:&quot;</p>
-</blockquote>
-<p>And if we change the <code>https:</code> to <code>http:</code> we just get this message:</p>
-<blockquote>
-<p>No more data in response.</p>
-</blockquote>
-<p>Seems like we might not be able to roll our own HTTP client as easily as I&apos;d thought. No worries, other people have certainly hit this problem before. They&apos;ve even created their own free npm packages that we can use in our project to abstract away whatever issue we&apos;re running into.</p>
-<p>Let&apos;s try using <a href="https://github.com/axios/axios" target="_blank">the <code>axios</code> package</a> as our HTTP Client instead. It&apos;s a js library specifically designed for it.</p>
-<p>First, we&apos;ll need to install it as a dependency in our project:</p>
-<pre><code class="lang-bash">npm i -S axios
-</code></pre>
-<p>This time, we&apos;ve used the <code>-S</code> flag, which installs the package as a regular dependency, meaning that we&apos;re depending on it to actually run the app.</p>
-<p>After <code>axios</code> has been installed, we can use it in our <code>index.js</code> file. First, <code>require</code> it as a variable at the top of our file:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
-<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;http&apos;</span>);
-<span class="hljs-keyword">const</span> axios = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;axios&apos;</span>);
-<span class="hljs-comment">// ...</span>
-</code></pre>
-<p>Remove the <code>const characterUrl = ...</code> line and everything after. Replace it with the following lines of code:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
-<span class="hljs-comment">// ...</span>
-axios({
-  url: <span class="hljs-string">&apos;https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114&apos;</span>,
-  method: <span class="hljs-string">&apos;get&apos;</span>,
-  withCredentials: <span class="hljs-literal">true</span>,
-  headers: {
-    <span class="hljs-string">&apos;Cache-Control&apos;</span>: <span class="hljs-string">&apos;no-cache&apos;</span>,
-    <span class="hljs-string">&apos;Cookies&apos;</span>: <span class="hljs-string">&apos;foo=bar&apos;</span>,
-    <span class="hljs-string">&apos;User-Agent&apos;</span>: <span class="hljs-string">&apos;dnd-party-manager&apos;</span>,
-    <span class="hljs-string">&apos;Accept&apos;</span>: <span class="hljs-string">&apos;*/*&apos;</span>,
-    <span class="hljs-string">&apos;Accept-Encoding&apos;</span>: <span class="hljs-string">&apos;gzip, deflate, br&apos;</span>,
-    <span class="hljs-string">&apos;Connection&apos;</span>: <span class="hljs-string">&apos;keep-alive&apos;</span>
-  }
-}).then((resp) =&gt; {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;Data: &apos;</span>, resp.data);
-}).catch((error) =&gt; {
-  <span class="hljs-built_in">console</span>.error(error);
-});
-</code></pre>
-<p>This <code>axios</code> call handles everything for us and now we&apos;re able to log the full page data for the requested url.</p>
-<p>So, now we&apos;ve gotten the html data, but we&apos;re also going to need to parse it so that we can organize it into a useful structure.</p>
-<p>Let&apos;s google &quot;node html parser&quot; to see what comes up: Ah, a <a href="https://github.com/cheeriojs/cheerio" target="_blank">package named <code>cheerio</code> seems useful</a>. But let&apos;s compare it to other similar packages on <a href="https://npmtrends.com" target="_blank">npmtrends.com</a>. First, I&apos;ll search for <a href="https://www.npmtrends.com/cheerio" target="_blank">cherrio</a>, and yep it seems popular enough, but let&apos;s now <a href="https://www.npmtrends.com/cheerio-vs-htmlparser2-vs-jsdom-vs-parse5-vs-scraper" target="_blank">compare it using a few of the suggested similar packages</a>. Okay wow <a href="https://github.com/inikulin/parse5" target="_blank">the <code>parse5</code> library</a> has a lot of downloads. Hmm, but it doesn&apos;t have as many stars on GitHub, so it&apos;s maybe not as intuitive to use. Well, I&apos;m going to bet on <code>cheerio</code> since it&apos;s README on GitHub was more inviting and it does have the most stars.</p>
-<p>Okay! So let&apos;s install <code>cheerio</code> into our project:</p>
-<pre><code class="lang-bash">npm i -S cheerio
-</code></pre>
-<p>Once it&apos;s installed, let&apos;s <code>require</code> it in the top of our <code>index.js</code> file:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
-<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;http&apos;</span>);
-<span class="hljs-keyword">const</span> axios = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;axios&apos;</span>);
-<span class="hljs-keyword">const</span> cheerio = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;cheerio&apos;</span>);
-<span class="hljs-comment">// ...</span>
-</code></pre>
-<p>And now let&apos;s use it to parse the html we receive in the <code>axios</code> response callback:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
-<span class="hljs-comment">// ...</span>
-}).then((resp) =&gt; {
-  <span class="hljs-keyword">const</span> $ = cheerio.load(resp.data);
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;Title&apos;</span>, $(<span class="hljs-string">&apos;h1.page-title&apos;</span>).text().trim());
-}).catch((error) =&gt; {
-<span class="hljs-comment">// ...</span>
-</code></pre>
-<p>Now we&apos;re getting somewhere. Now, if we run <code>npm run serve</code>, our app should make a request to our character&apos;s page, parse the response html, and then print out our character&apos;s title like so: <code>&quot;Title: Rikstiivs&quot;</code> (my DnD character&apos;s name is Rikstiivs).</p>
-<p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.3" target="_blank">view <code>v0.0.3</code> here</a>.</p>
-<h2 id="display-the-data">Display the data</h2>
-<p>So now we have a server, and we&apos;re able to fetch and parse the data for our DnD Beyond character. But we only see that data in the terminal. We need to figure out some way to display the data in the server&apos;s response so that we get the formatted info we want when we load our app.</p>
-<p>The easiest thing to do will be to just take out that <code>const server = ...</code> and <code>server.listen(...)</code> code and jam it into the axios response callback, like so:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
-<span class="hljs-comment">// ...</span>
-}).then((resp) =&gt; {
-  <span class="hljs-keyword">const</span> $ = cheerio.load(resp.data);
-  <span class="hljs-keyword">const</span> title = $(<span class="hljs-string">&apos;h1.page-title&apos;</span>).text().trim();
-
-  <span class="hljs-keyword">const</span> server = http.createServer((req, res) =&gt; {
-    res.statusCode = <span class="hljs-number">200</span>;
-    res.setHeader(<span class="hljs-string">&apos;Content-Type&apos;</span>, <span class="hljs-string">&apos;text/plain&apos;</span>);
-    res.end(<span class="hljs-string">`Title: <span class="hljs-subst">${title}</span>`</span>);
-  });
-
-  server.listen(port, hostname, () =&gt; {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server running at http://<span class="hljs-subst">${hostname}</span>:<span class="hljs-subst">${port}</span>/`</span>);
-  });
-}).catch((error) =&gt; {
-<span class="hljs-comment">// ...</span>
-</code></pre>
-<p>Now, when we run <code>npm run serve</code> and then navigate to <a href="http://127.0.0.1:3000" target="_blank">http://127.0.0.1:3000</a>, we should see &quot;Title: [Your Character&apos;s Name]&quot; displayed.</p>
-<p>We&apos;ll almost certainly need to take this code back out and handle the data fetching and serving in a more flexible way. But for now it works!</p>
-<p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.4" target="_blank">view <code>v0.0.4</code> here</a>.</p>
-<h2 id="wait-wheres-the-rest-of-the-data">Wait where&apos;s the rest of the data?</h2>
-<p>So, here&apos;s the thing: what it looks like is happening is that we aren&apos;t getting the fully loaded page with the <code>axios</code> call. A lot of webpages will initially only load basic html and then use JavaScript to add the rest of the functionality or content. Seems like the page for the DnD Beyond character sheet is doing just that. We are able to get the character&apos;s name, but if we look through the rest of the html, we&apos;re only getting the header content before seeing a bunch of <code>&lt;script&gt;</code> tags which are assumably being used to then load the rest of the page&apos;s content.</p>
-<p>So what does that mean? Well, <code>axios</code> probably won&apos;t work for getting the data from the DnD Beyond page after all. So, let&apos;s get rid of it and try out another library that might get the job done: <code>puppeteer</code>. I&apos;ve heard of this library before, and know that it functions closer to a web browser and should be able to load the content of a page after it&apos;s fully loaded.</p>
-<p>So first let&apos;s remove the <code>const axios = require(&apos;axios&apos;)</code> statement at the top of the file and replace it with `</p>
-<p>Okay so first let&apos;s install <code>puppeteer</code> and uninstall <code>axios</code> (using the <code>un</code> command instead of <code>i</code>):</p>
-<pre><code class="lang-bash">npm i -S puppeteer
-npm un -S axios
-</code></pre>
-<p>Now let&apos;s <code>require</code> it instead of <code>axios</code> in the top of our <code>index.js</code> file:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// src/index.js</span>
-<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;http&apos;</span>);
-<span class="hljs-keyword">const</span> puppeteer = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;puppeteer&apos;</span>);
-<span class="hljs-keyword">const</span> cheerio = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;cheerio&apos;</span>);
-<span class="hljs-comment">// ...</span>
-</code></pre>
-<p>Now let&apos;s write our own function, using the <code>puppeteer</code> library, to get the html of any given page:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getHtml</span>(<span class="hljs-params">url</span>) </span>{
-  <span class="hljs-keyword">const</span> browser = <span class="hljs-keyword">await</span> puppeteer.launch({ headless: <span class="hljs-literal">false</span> });
-  <span class="hljs-keyword">const</span> page = <span class="hljs-keyword">await</span> browser.newPage();
-  <span class="hljs-keyword">await</span> page.goto(url, { waitUntil: <span class="hljs-string">&apos;networkidle2&apos;</span> });
-  <span class="hljs-keyword">const</span> html = <span class="hljs-keyword">await</span> page.content();
-  <span class="hljs-keyword">await</span> browser.close();
-  <span class="hljs-keyword">return</span> html;
-}
-</code></pre>
-<p>The <code>puppeteer</code> library comes installed with <a href="https://www.chromium.org/" target="_blank">Chromium</a>, which is an open-source browser that Google Chrome is based off of. So, in the first line of the <code>getHtml</code> function, we are actually launching a browser that we&apos;ll be able to load webpages with. The second line is telling the browser to open a new page and the third line is telling the page to go to the <code>url</code> that gets passed in as the parameter of the function. The <code>{ waitUntil: &apos;networkidle2&apos; }</code> config object is telling the page to wait until the page has completely loaded before resolving and allowing our function to continue. The next line gets the <code>html</code> content from the page, and the line after that closes the browser. Finally, our function returns the <code>html</code> that was retrieved from the page.</p>
-<p>We can add that function to the top of the page and then we can replace the entire <code>axios</code> call with simply <code>getHtml(characterUrl)</code>.</p>
-<p>Since we&apos;re returning the <code>html</code> just like the <code>axios</code> call was, we can keep the <code>then</code> handler and just tweak the param being passed to it:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// ...</span>
-getHtml(characterUrl).then((html) =&gt; {
-  <span class="hljs-keyword">const</span> $ = cheerio.load(html);
-  <span class="hljs-comment">// ...</span>
-});
-</code></pre>
-<p>At this point we should be able to run the <code>npm run serve</code> command and see the same results as when we used <code>axios</code> in the previous section.</p>
-<p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.5" target="_blank">view <code>v0.0.5</code> here</a>.</p>
-<h2 id="parsing-some-useful-data">Parsing some useful data</h2>
-<p>In the last section we switched tactics to use the <code>puppeteer</code> library to render the content of the DnD Beyond webpage and read it in our app. So, now let&apos;s explore that content to parse out some useful stats from our DnD character.</p>
-<p>Let&apos;s first go to the actual page that we are trying to parse information out of. For example, <a href="https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114&apos;" target="_blank">here in the character sheet</a> for my character named Rikstiivs. On that page we can right-click a stat that we&apos;re interested in and choose the &quot;Inspect&quot; option from the menu that pops up. The dev tools will open up and we&apos;ll be able to see where in the html the stat is located and what css classes it has. This will be helpful for accessing it with the <code>cheerio</code> library.</p>
-<p>Here&apos;s what my character sheet looked like at the time of writing this:</p>
-<p><img src="../assets/images/DnD_character_sheet.png" alt="DnD Beyond Character Sheet"></p>
-<p>As an example, we can right-click on the Strength stat at the top-left corner of the character sheet and &quot;Inspect&quot; it (the 23, not the +6 modifier value). It looks like the element displaying the 23 has a <code>ct-ability-summary__secondary</code> class, and so do the other elements displaying these six main stats. So, in our code, let&apos;s try to access that value using a css selector in the <code>cheerio</code> instance we&apos;ve already created:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// ...</span>
-<span class="hljs-keyword">const</span> title = $(<span class="hljs-string">&apos;h1.page-title&apos;</span>).text().trim();
-<span class="hljs-keyword">const</span> stat = <span class="hljs-string">&apos;.ct-ability-summary__secondary&apos;</span>;
-<span class="hljs-keyword">const</span> strength = $(stat).eq(<span class="hljs-number">0</span>).text();
-
-<span class="hljs-built_in">console</span>.log({ strength });
-<span class="hljs-comment">// ...</span>
-</code></pre>
-<p>The above code should print <code>{ strength: &apos;26&apos; }</code> to the console when we run <code>npm run serve</code>.</p>
-<p>We can now use the same logic to get the values for each of the six main stats and then render those values in the server&apos;s response. The entire <code>then</code> callback will then look something like this:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// ...</span>
-getHtml(characterUrl).then((html) =&gt; {
-  <span class="hljs-keyword">const</span> $ = cheerio.load(html);
-  <span class="hljs-keyword">const</span> title = $(<span class="hljs-string">&apos;h1.page-title&apos;</span>).text().trim();
-  <span class="hljs-keyword">const</span> stats = $(<span class="hljs-string">&apos;.ct-ability-summary__secondary&apos;</span>);
-  <span class="hljs-keyword">const</span> str = stats.eq(<span class="hljs-number">0</span>).text();
-  <span class="hljs-keyword">const</span> dex = stats.eq(<span class="hljs-number">1</span>).text();
-  <span class="hljs-keyword">const</span> con = stats.eq(<span class="hljs-number">2</span>).text();
-  <span class="hljs-keyword">const</span> int = stats.eq(<span class="hljs-number">3</span>).text();
-  <span class="hljs-keyword">const</span> wis = stats.eq(<span class="hljs-number">4</span>).text();
-  <span class="hljs-keyword">const</span> cha = stats.eq(<span class="hljs-number">5</span>).text();
-
-  <span class="hljs-keyword">const</span> server = http.createServer((req, res) =&gt; {
-    res.statusCode = <span class="hljs-number">200</span>;
-    res.setHeader(<span class="hljs-string">&apos;Content-Type&apos;</span>, <span class="hljs-string">&apos;text/plain&apos;</span>);
-    res.end(<span class="hljs-string">`
-      Title: <span class="hljs-subst">${title}</span>
-      STR <span class="hljs-subst">${str}</span>
-      DEX <span class="hljs-subst">${dex}</span>
-      CON <span class="hljs-subst">${con}</span>
-      INT <span class="hljs-subst">${int}</span>
-      WIS <span class="hljs-subst">${wis}</span>
-      CHA <span class="hljs-subst">${cha}</span>
-    `</span>);
-  });
-
-  server.listen(port, hostname, () =&gt; {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server running at http://<span class="hljs-subst">${hostname}</span>:<span class="hljs-subst">${port}</span>/`</span>);
-  });
-});
-<span class="hljs-comment">// ...</span>
-</code></pre>
-<p>And now, when we run <code>npm run serve</code> and then navigate to <code>127.0.0.1:3000</code>, we should see a page rendered with the following text:</p>
-<pre><code class="lang-txt">Title: Rikstiivs
+  server<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>port<span class="token punctuation">,</span> hostname<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Server running at http://</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>hostname<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">:</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>port<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ...</span>
+</code></pre></div><p>And now, when we run <code>npm run serve</code> and then navigate to <code>127.0.0.1:3000</code>, we should see a page rendered with the following text:</p> <div class="language-txt extra-class"><pre class="language-text"><code>Title: Rikstiivs
 STR 23
 DEX 15
 CON 14
 INT 12
 WIS 14
 CHA 12
-</code></pre>
-<p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.6" target="_blank">view <code>v0.0.6</code> here</a>.</p>
-
-                                
-                                </section>
-                            
-    </div>
-    <div class="search-results">
-        <div class="has-results">
-            
-            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
-            <ul class="search-results-list"></ul>
-            
-        </div>
-        <div class="no-results">
-            
-            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
-            
-        </div>
-    </div>
-</div>
-
-                        </div>
-                    </div>
-                
-            </div>
-
-            
-                
-                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Posts">
-                    <i class="fa fa-angle-left"></i>
-                </a>
-                
-                
-                <a href="node-project.html" class="navigation navigation-next " aria-label="Next page: Node Project in VS Code">
-                    <i class="fa fa-angle-right"></i>
-                </a>
-                
-            
-        
-    </div>
-
-    <script>
-        var gitbook = gitbook || [];
-        gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"DnD Party Management App","level":"1.2.1","depth":2,"next":{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},"previous":{"title":"Posts","level":"1.2","depth":1,"path":"posts/README.md","ref":"posts/README.md","articles":[{"title":"DnD Party Management App","level":"1.2.1","depth":2,"path":"posts/dnd-party-app.md","ref":"posts/dnd-party-app.md","articles":[]},{"title":"Node Project in VS Code","level":"1.2.2","depth":2,"path":"posts/node-project.md","ref":"posts/node-project.md","articles":[]},{"title":"Push a Project to GitHub","level":"1.2.3","depth":2,"path":"posts/push-to-github.md","ref":"posts/push-to-github.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"posts/dnd-party-app.md","mtime":"2020-04-20T03:37:53.990Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-04-20T03:38:39.313Z"},"basePath":"..","book":{"language":""}});
-        });
-    </script>
-</div>
-
-        
-    <script src="../gitbook/gitbook.js"></script>
-    <script src="../gitbook/theme.js"></script>
-    
-        
-        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
-        
-    
-
-    </body>
+</code></pre></div><p>If you want to see the code at this point, you can <a href="https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.6" target="_blank" rel="noopener noreferrer">view <code>v0.0.6</code> here<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>.</p> <h2 id="dynamic-character-stats"><a href="#dynamic-character-stats" class="header-anchor">#</a> Dynamic character stats</h2> <p>So, now we have an app that will parse the stats from the character sheet url that we've specified in the code and then display those stats in the server's response. What we want to do next is to be able to calculate these stats for any DnD Beyond character sheet on the fly. That means we'll need to call our <code>getHtml</code> function in response to a HTML request from the client (or the person navigating to our site). The client will need to somehow tell the server which character sheet it wants to parse and the server will need to render the correct stats based on that information.</p> <p>First, let's see if we can get the server to call the <code>getHtml</code> method only once the client has made a request to the server.</p> <p>We'll put the <code>getHtml</code> call inside the <code>http.createServer</code> callback. We'll need to make the callback <code>async</code> and then <code>await</code> the return of the <code>getHtml</code> function. It should look something like this:</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> characterUrl <span class="token operator">=</span> <span class="token string">'https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> server <span class="token operator">=</span> http<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> html <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">getHtml</span><span class="token punctuation">(</span>characterUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> $ <span class="token operator">=</span> cheerio<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> title <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'h1.page-title'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> stats <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.ct-ability-summary__secondary'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> str <span class="token operator">=</span> stats<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// ...</span>
+  <span class="token keyword">const</span> cha <span class="token operator">=</span> stats<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  res<span class="token punctuation">.</span>statusCode <span class="token operator">=</span> <span class="token number">200</span><span class="token punctuation">;</span>
+  res<span class="token punctuation">.</span><span class="token function">setHeader</span><span class="token punctuation">(</span><span class="token string">'Content-Type'</span><span class="token punctuation">,</span> <span class="token string">'text/plain'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+    Title: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+    ...
+  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ...</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.8e89f879.js" defer></script><script src="/assets/js/2.9e75d588.js" defer></script><script src="/assets/js/5.f887cf79.js" defer></script>
+  </body>
 </html>
-
