@@ -282,7 +282,7 @@ Let's first go to the actual page that we are trying to parse information out of
 
 Here's what my character sheet looked like at the time of writing this:
 
-![DnD Beyond Character Sheet](/assets/images/DnD_character_sheet.png)
+![DnD Beyond Character Sheet](../assets/images/DnD_character_sheet.png)
 
 As an example, we can right-click on the Strength stat at the top-left corner of the character sheet and "Inspect" it (the 23, not the +6 modifier value). It looks like the element displaying the 23 has a `ct-ability-summary__secondary` class, and so do the other elements displaying these six main stats. So, in our code, let's try to access that value using a css selector in the `cheerio` instance we've already created:
 
@@ -347,3 +347,30 @@ CHA 12
 ```
 
 If you want to see the code at this point, you can [view `v0.0.6` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.6).
+
+## Dynamic character stats
+
+So, now we have an app that will parse the stats from the character sheet url that we've specified in the code and then display those stats in the server's response. What we want to do next is to be able to calculate these stats for any DnD Beyond character sheet on the fly. That means we'll need to call our `getHtml` function in response to a HTML request from the client (or the person navigating to our site). The client will need to somehow tell the server which character sheet it wants to parse and the server will need to render the correct stats based on that information.
+
+First, let's see if we can get the server to call the `getHtml` method only once the client has made a request to the server.
+
+We'll put the `getHtml` call inside the `http.createServer` callback. We'll need to make the callback `async` and then `await` the return of the `getHtml` function. It should look something like this:
+
+```js
+const characterUrl = 'https://www.dndbeyond.com/profile/brianmcmillen1/characters/6626114';
+const server = http.createServer(async (req, res) => {
+  const html = await getHtml(characterUrl);
+  const $ = cheerio.load(html);
+  const title = $('h1.page-title').text().trim();
+  const stats = $('.ct-ability-summary__secondary');
+  const str = stats.eq(0).text();
+  // ...
+  const cha = stats.eq(5).text();
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end(`
+    Title: ${title}
+    ...
+  `);
+// ...
+```

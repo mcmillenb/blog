@@ -12,13 +12,13 @@ First, we'll want to create a GitHub account if you don't already have one. Go t
 
 Once you have a GitHub account, you can create a new repository in your account by going to <https://github.com/new> and then filling out the form. Make it anything you want, but it should look something like this:
 
-![GitHub New Repo Example](/assets/images/GitHub_new_repo.png)
+![GitHub New Repo Example](../assets/images/GitHub_new_repo.png)
 
 ## Clone Your Repo to Your Machine
 
 Once you've created your repo, you should be able to see a "Clone or download" button in the top right of the repo's page. Like this:
 
-![GitHub Clone Button Example](/assets/images/GitHub_clone_repo.png)
+![GitHub Clone Button Example](../assets/images/GitHub_clone_repo.png)
 
 Click that, copy the url that pops up, and then execute this command in your terminal:
 

@@ -1,6 +1,4 @@
-# Summary
-
-This is a summary of the book.
+# Blog
 
 * [Blog](README.md)
 * [Posts](posts/README.md)

@@ -1,0 +1,31 @@
+{
+  "name": "brians-tech-blog",
+  "version": "0.0.1",
+  "description": "Brian's Blog for Tech",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "vuepress dev blog",
+    "build": "vuepress build blog"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcmillenb/blog.git"
+  },
+  "keywords": [
+    "blog",
+    "tech",
+    "vue",
+    "js",
+    "javascript"
+  ],
+  "author": "Brian McMillen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcmillenb/blog/issues"
+  },
+  "homepage": "https://github.com/mcmillenb/blog#readme",
+  "devDependencies": {
+    "vuepress": "^1.4.1"
+  }
+}
