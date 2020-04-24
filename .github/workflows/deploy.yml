@@ -21,9 +21,9 @@ jobs:
     - name: 'Generating distributable files'
       run: |
         npm run build
-        cp ./CNAME ./blog/.vuepress/dist/CNAME
+        cp ./CNAME ./src/.vuepress/dist/CNAME
     - uses: peaceiris/actions-gh-pages@v2.5.0
       env:
         ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./blog/.vuepress/dist
+        PUBLISH_DIR: ./src/.vuepress/dist

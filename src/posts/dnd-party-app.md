@@ -282,7 +282,7 @@ Let's first go to the actual page that we are trying to parse information out of
 
 Here's what my character sheet looked like at the time of writing this:
 
-![DnD Beyond Character Sheet](../assets/images/DnD_character_sheet.png)
+![DnD Beyond Character Sheet](~@/assets/images/DnD_character_sheet.png)
 
 As an example, we can right-click on the Strength stat at the top-left corner of the character sheet and "Inspect" it (the 23, not the +6 modifier value). It looks like the element displaying the 23 has a `ct-ability-summary__secondary` class, and so do the other elements displaying these six main stats. So, in our code, let's try to access that value using a css selector in the `cheerio` instance we've already created:
 
