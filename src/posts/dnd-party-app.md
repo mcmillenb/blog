@@ -389,7 +389,6 @@ const server = http.createServer(async (req, res) => {
   }
   const html = await getHtml(`${characterUrl}${url}`);
   const $ = cheerio.load(html);
-  ...
 // ...
 ```
 
@@ -398,3 +397,65 @@ In the code above we're first taking the url string (`/6626114` in our case) fro
 Now when we run `npm run serve` and navigate to `http://127.0.0.1:3000/6626114`, we should see the same stats we loaded before for our character. But what's more: we can now navigate to any character id in our app and see the stats for that character. For example: `http://127.0.0.1:3000/24118826` should load my Moonbean character's stats.
 
 We're now able to load the basic stats of any DnD Beyond character just based on their id! If you want to see the code at this point, you can [view `v0.0.7` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.7).
+
+## Formatting the response data
+
+So, now we're able to get the stats for any character. But it would be nicer to get that data in an easy-to-parse format, instead of just plain-text. Next we'll see if we can structure the data as JSON so that we can work with the retrieve data more easily.
+
+First, we'll want to put the data we parse from our character's page into a JavaScript object:
+
+```js
+const server = http.createServer(async (req, res) => {
+  // ...
+  const $ = cheerio.load(html);
+  const title = $('h1.page-title').text().trim();
+  const stats = $('.ct-ability-summary__secondary');
+  const str = stats.eq(0).text();
+  const dex = stats.eq(1).text();
+  const con = stats.eq(2).text();
+  const int = stats.eq(3).text();
+  const wis = stats.eq(4).text();
+  const cha = stats.eq(5).text();
+
+  const data = {
+    title,
+    stats: { str, dex, con, int, wis, cha }
+  };
+// ...
+```
+
+Then, we'll want to return the `data` as a JSON string in our response:
+
+```js
+const server = http.createServer(async (req, res) => {
+  // ...
+
+  const data = {
+    title,
+    stats: { str, dex, con, int, wis, cha }
+  };
+
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify(data));
+});
+// ...
+```
+
+Now, when we run our app and navigate to the page for our character, we should see our response looks something like this:
+
+```json
+{
+  "title": "Rikstiivs",
+  "stats": {
+    "str": "23",
+    "dex": "15",
+    "con": "14",
+    "int": "12",
+    "wis": "14",
+    "cha": "12"
+  }
+}
+```
+
+Nice and formatted! Just the way I like it. If you want to see the code at this point, you can [view `v0.0.8` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.8).
