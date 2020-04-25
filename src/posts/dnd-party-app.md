@@ -459,3 +459,65 @@ Now, when we run our app and navigate to the page for our character, we should s
 ```
 
 Nice and formatted! Just the way I like it. If you want to see the code at this point, you can [view `v0.0.8` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.8).
+
+## Load stats for a whole party
+
+Now, what's really going to set this app over the top is to be able to load each member of a campaign at the same time and display it on the same screen. Campaigns in DnD Beyond can also be accessed by a single id, like the character sheets can. So what we'll want to do now is load the page for a campaign and return all of the character ids from it.
+
+First, let's pull the logic specific to the character sheet parsing to its own function that we can call from the server's response callback:
+
+```js
+// ...
+async function parseCharacterSheet(url) {
+  const characterUrl = 'https://www.dndbeyond.com/profile/brianmcmillen1/characters';
+  const html = await getHtml(`${characterUrl}${url}`);
+  const $ = cheerio.load(html);
+  const title = $('h1.page-title').text().trim();
+  const stats = $('.ct-ability-summary__secondary');
+  const str = stats.eq(0).text();
+  const dex = stats.eq(1).text();
+  const con = stats.eq(2).text();
+  const int = stats.eq(3).text();
+  const wis = stats.eq(4).text();
+  const cha = stats.eq(5).text();
+
+  return {
+    title,
+    stats: { str, dex, con, int, wis, cha }
+  };
+}
+
+const server = http.createServer(async (req, res) => {
+  const { url } = req;
+  let data = {};
+  if (url.match(/^[\/]\d+$/)) {
+    data = await parseCharacterSheet(url);
+  } else {
+    res.end('bad id');
+    return;
+  }
+
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify(data));
+});
+// ...
+```
+
+You should also note that the `if` statement has been flipped around so that now the `parseCharacterSheet` function will be called if the url string matches our regular expression and otherwise the response will end with `'bad id'`.
+
+Now, what I would have done next is make another regex comparison to a different url path for our app which would specifically be used to parse the campaign page for individual character ids.
+
+```js
+// ...
+  if (url.match(/^[\/]\d+$/)) {
+    data = await parseCharacterSheet(url);
+  } else if (url.match(/^[\/]party[\/]\d+$/)) {
+    data = await parsePartyPage(url);
+  } else {
+// ...
+```
+
+But, unfortunately, what I just now discovered is that, while campaigns do indeed have id-specific pages in DnD Beyond, you need to be logged in to view them. And boy howdy, I'm not going to try to authenticate our app against DnD Beyond. It might be possible to do, but you gotta know when to fold 'em.
+
+So, anyways, I'm going to call it for this post. We did manage to tidy up our code a bit, and we also technically have a working app. So I'm going to increase the project's minor version to `v0.1.0`. So if you want to see the code at this point, you can [view `v0.1.0` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.1.0).
