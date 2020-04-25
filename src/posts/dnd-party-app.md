@@ -374,3 +374,27 @@ const server = http.createServer(async (req, res) => {
   `);
 // ...
 ```
+
+That looks like it's working! So now we'll want to take the id of our character out of the `characterUrl` variable so that we can add it to requests made to our app. Instead of loading our app at `http://127.0.0.1:3000`, we'll load `http://127.0.0.1:3000/6626114`, passing our character's id in the url.
+
+Our server code will need to add the id from the request (the `req` variable) to the `characterUrl` which now is id-less.
+
+```js
+const characterUrl = 'https://www.dndbeyond.com/profile/brianmcmillen1/characters';
+const server = http.createServer(async (req, res) => {
+  const { url } = req;
+  if (!url.match(/^[\/]\d+$/)) {
+    res.end('bad id');
+    return;
+  }
+  const html = await getHtml(`${characterUrl}${url}`);
+  const $ = cheerio.load(html);
+  ...
+// ...
+```
+
+In the code above we're first taking the url string (`/6626114` in our case) from the request to the server. Then we're seeing if the url matches the regular expression `/^[\/]\d+$/`. This regular expression will match the string if it begins (`^`) with a single `/` character (`[\/]`), followed by one or more (`+`) numbers (`\d`) and then nothing more (`$`). If the url string does not match that criteria, the server will response with a simple `'bad id'` message. If the string does match the regular expression, we'll call `getHtml` and pass in the character url with our request`s url appended to it.
+
+Now when we run `npm run serve` and navigate to `http://127.0.0.1:3000/6626114`, we should see the same stats we loaded before for our character. But what's more: we can now navigate to any character id in our app and see the stats for that character. For example: `http://127.0.0.1:3000/24118826` should load my Moonbean character's stats.
+
+We're now able to load the basic stats of any DnD Beyond character just based on their id! If you want to see the code at this point, you can [view `v0.0.7` here](https://github.com/mcmillenb/dnd-party-manager/tree/v0.0.7).
