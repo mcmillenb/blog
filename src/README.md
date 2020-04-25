@@ -1,9 +1,8 @@
-# Blog
-
-* [Blog](README.md)
-* [Posts](posts/README.md)
-  * [DnD Party Management App](posts/dnd-party-app.md)
-  * [Node Project in VS Code](posts/node-project.md)
-  * [Push a Project to GitHub](posts/push-to-github.md)
-* [Thoughts](thoughts/README.md)
-  * [Project Ideas](thoughts/project-ideas.md)
+---
+home: true
+heroText: Brian McMillen
+tagline: Hey look, I don't need to explain myself to you
+actionText: Blog Posts
+actionLink: /posts/
+footer: Copyright © 2020-present Brian McMillen
+---
